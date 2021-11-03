@@ -53,6 +53,10 @@ namespace MultiplayerARPG
         /// Animator Hash for ReloadID parameter 
         /// </summary>
         internal readonly int ReloadID = Animator.StringToHash("ReloadID");
+        /// <summary>
+        /// Animator Hash for IsCrawling parameter
+        /// </summary>
+        internal readonly int IsCrawling = Animator.StringToHash("IsCrawling");
 
         /// <summary>
         /// Attack ID = 1
@@ -549,9 +553,7 @@ namespace MultiplayerARPG
             animator.SetBool(vAnimatorParameters.IsSprinting, isSprinting);
             animator.SetBool(vAnimatorParameters.IsSliding, isSliding && !isRolling);
             animator.SetBool(vAnimatorParameters.IsCrouching, isCrouching);
-#if MIS_CRAWLING
-            animator.SetBool("IsCrawling", isCrawling);
-#endif
+            animator.SetBool(IsCrawling, isCrawling);
             animator.SetBool(vAnimatorParameters.IsGrounded, isGrounded);
             animator.SetBool(vAnimatorParameters.IsDead, isDead);
             animator.SetFloat(vAnimatorParameters.GroundDistance, groundDistance);
