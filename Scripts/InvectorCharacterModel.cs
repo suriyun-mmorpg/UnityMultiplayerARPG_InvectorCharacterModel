@@ -14,57 +14,14 @@ namespace MultiplayerARPG
         public float strafeAnimationSmooth = 0.2f;
         [Range(0f, 1f)]
         public float freeAnimationSmooth = 0.2f;
-        /// <summary>
-        /// Attack ID = 0
-        /// </summary>
-        public WeaponType[] unarmedWeaponTypes;
-        /// <summary>
-        /// Attack ID = 1
-        /// </summary>
         public WeaponType[] swordWeaponTypes;
-        /// <summary>
-        /// Attack ID = 4
-        /// </summary>
         public WeaponType[] twoHandSwordWeaponTypes;
-        /// <summary>
-        /// Attack ID = 5
-        /// </summary>
         public WeaponType[] dualSwordWeaponTypes;
-        /// <summary>
-        /// Reload ID = 1
-        /// Aiming ID = 1
-        /// Shot ID = 1
-        /// </summary>
         public WeaponType[] pistolWeaponTypes;
-        /// <summary>
-        /// Reload ID = 2
-        /// Aiming ID = 2
-        /// Shot ID = 2
-        /// </summary>
         public WeaponType[] rifleWeaponTypes;
-        /// <summary>
-        /// Reload ID = 3
-        /// Aiming ID = 3
-        /// Shot ID = 3
-        /// </summary>
         public WeaponType[] shotgunWeaponTypes;
-        /// <summary>
-        /// Reload ID = 2
-        /// Aiming ID = 2
-        /// Shot ID = 4
-        /// </summary>
         public WeaponType[] sniperWeaponTypes;
-        /// <summary>
-        /// Reload ID = 4
-        /// Aiming ID = 4
-        /// Shot ID = 5
-        /// </summary>
         public WeaponType[] rpgWeaponTypes;
-        /// <summary>
-        /// Reload ID = 5
-        /// Aiming ID = 5
-        /// Shot ID = 6
-        /// </summary>
         public WeaponType[] bowWeaponTypes;
         // From `vCharacter.cs`
         protected vAnimatorParameter hitDirectionHash;
@@ -83,17 +40,67 @@ namespace MultiplayerARPG
         public int fullbodyLayer { get { return animator.GetLayerIndex("FullBody"); } }
         // From `vShooterMeleeInput.cs`
         internal Transform leftHand, rightHand, rightLowerArm, leftLowerArm, rightUpperArm, leftUpperArm;
+        // From `vShooterManager.cs`
+        /// <summary>
+        /// Animator Hash for IsShoot parameter 
+        /// </summary>
+        internal readonly int IsShoot = Animator.StringToHash("Shoot");
+        /// <summary>
+        /// Animator Hash for Reload parameter 
+        /// </summary>
+        internal readonly int Reload = Animator.StringToHash("Reload");
+        /// <summary>
+        /// Animator Hash for ReloadID parameter 
+        /// </summary>
+        internal readonly int ReloadID = Animator.StringToHash("ReloadID");
 
-
-        private readonly HashSet<int> _unarmedWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Attack ID = 1
+        /// </summary>
         private readonly HashSet<int> _swordWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Attack ID = 4
+        /// </summary>
         private readonly HashSet<int> _twoHandSwordWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Attack ID = 5
+        /// </summary>
         private readonly HashSet<int> _dualSwordWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 1
+        /// Aiming ID = 1
+        /// Shot ID = 1
+        /// </summary>
         private readonly HashSet<int> _pistolWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 2
+        /// Aiming ID = 2
+        /// Shot ID = 2
+        /// </summary>
         private readonly HashSet<int> _rifleWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 3
+        /// Aiming ID = 3
+        /// Shot ID = 3
+        /// </summary>
         private readonly HashSet<int> _shotgunWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 2
+        /// Aiming ID = 2
+        /// Shot ID = 4
+        /// </summary>
         private readonly HashSet<int> _sniperWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 4
+        /// Aiming ID = 4
+        /// Shot ID = 5
+        /// </summary>
         private readonly HashSet<int> _rpgWeaponTypes = new HashSet<int>();
+        /// <summary>
+        /// Reload ID = 5
+        /// Aiming ID = 5
+        /// Shot ID = 6
+        /// </summary>
         private readonly HashSet<int> _bowWeaponTypes = new HashSet<int>();
 
         protected override void Awake()
@@ -107,10 +114,6 @@ namespace MultiplayerARPG
             leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
             rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
             // Fill data ID hash set
-            foreach (WeaponType type in unarmedWeaponTypes)
-            {
-                _unarmedWeaponTypes.Add(type.DataId);
-            }
             foreach (WeaponType type in swordWeaponTypes)
             {
                 _swordWeaponTypes.Add(type.DataId);
@@ -151,12 +154,6 @@ namespace MultiplayerARPG
 
         public bool GetAttackAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
         {
-            if (_unarmedWeaponTypes.Contains(dataId))
-            {
-                totalDuration = 0.542f;
-                triggerDurations = new float[1] { totalDuration * 0.5f };
-                return true;
-            }
             if (_swordWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
@@ -211,9 +208,10 @@ namespace MultiplayerARPG
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            totalDuration = 0;
-            triggerDurations = new float[0];
-            return false;
+            // Unarmed
+            totalDuration = 0.542f;
+            triggerDurations = new float[1] { totalDuration * 0.5f };
+            return true;
         }
 
         public bool GetReloadAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
@@ -327,9 +325,150 @@ namespace MultiplayerARPG
             // TODO: Implement this, for only throwing item and bow
         }
 
+        public IEnumerator PlayAttackAnimation(int dataId)
+        {
+            if (_swordWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(vAnimatorParameters.AttackID, 1);
+                animator.SetTrigger(vAnimatorParameters.WeakAttack);
+            }
+            else if (_twoHandSwordWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(vAnimatorParameters.AttackID, 4);
+                animator.SetTrigger(vAnimatorParameters.WeakAttack);
+            }
+            else if (_dualSwordWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(vAnimatorParameters.AttackID, 5);
+                animator.SetTrigger(vAnimatorParameters.WeakAttack);
+            }
+            else if (_pistolWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 1);
+                animator.SetTrigger(IsShoot);
+            }
+            else if (_rifleWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 2);
+                animator.SetTrigger(IsShoot);
+            }
+            else if (_shotgunWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 3);
+                animator.SetTrigger(IsShoot);
+            }
+            else if (_sniperWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 4);
+                animator.SetTrigger(IsShoot);
+            }
+            else if (_rpgWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 5);
+                animator.SetTrigger(IsShoot);
+            }
+            else if (_bowWeaponTypes.Contains(dataId))
+            {
+                animator.SetBool(vAnimatorParameters.CanAim, true);
+                animator.SetBool(vAnimatorParameters.IsAiming, true);
+                animator.SetBool(vAnimatorParameters.IsHipFire, true);
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
+                animator.SetFloat(vAnimatorParameters.Shot_ID, 6);
+                animator.SetTrigger(IsShoot);
+            }
+            else
+            {
+                animator.ResetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(vAnimatorParameters.AttackID, 0);
+                animator.SetTrigger(vAnimatorParameters.WeakAttack);
+            }
+            float totalDuration;
+            GetAttackAnimation(dataId, out _, out totalDuration);
+            yield return new WaitForSecondsRealtime(totalDuration);
+            animator.SetBool(vAnimatorParameters.CanAim, false);
+            animator.SetBool(vAnimatorParameters.IsAiming, false);
+            animator.SetBool(vAnimatorParameters.IsHipFire, false);
+        }
+
+        public IEnumerator PlayReloadAnimation(int dataId)
+        {
+            if (_pistolWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 1);
+                animator.SetTrigger(Reload);
+            }
+            if (_rifleWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 2);
+                animator.SetTrigger(Reload);
+            }
+            if (_shotgunWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 3);
+                animator.SetTrigger(Reload);
+            }
+            if (_sniperWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 2);
+                animator.SetTrigger(Reload);
+            }
+            if (_rpgWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 4);
+                animator.SetTrigger(Reload);
+            }
+            if (_bowWeaponTypes.Contains(dataId))
+            {
+                animator.ResetTrigger(Reload);
+                animator.SetInteger(ReloadID, 5);
+                animator.SetTrigger(Reload);
+            }
+            float totalDuration;
+            GetReloadAnimation(dataId, out _, out totalDuration);
+            yield return new WaitForSecondsRealtime(totalDuration);
+        }
+
         public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, float playSpeedMultiplier = 1)
         {
-
+            switch (animActionType)
+            {
+                case AnimActionType.AttackLeftHand:
+                case AnimActionType.AttackRightHand:
+                    StartCoroutine(PlayAttackAnimation(dataId));
+                    break;
+                case AnimActionType.ReloadLeftHand:
+                case AnimActionType.ReloadRightHand:
+                    StartCoroutine(PlayReloadAnimation(dataId));
+                    break;
+            }
         }
 
         public override void StopActionAnimation()
