@@ -14,6 +14,10 @@ namespace MultiplayerARPG
         public float strafeAnimationSmooth = 0.2f;
         [Range(0f, 1f)]
         public float freeAnimationSmooth = 0.2f;
+        [Tooltip("Control the speed of the Animator Layer OnlyArms Weight")]
+        public float onlyArmsSpeed = 25f;
+        [Tooltip("Time to keep aiming after shot")]
+        public float hipfireAimTime = 2f;
         public WeaponType[] swordWeaponTypes;
         public WeaponType[] twoHandSwordWeaponTypes;
         public WeaponType[] dualSwordWeaponTypes;
@@ -23,6 +27,8 @@ namespace MultiplayerARPG
         public WeaponType[] sniperWeaponTypes;
         public WeaponType[] rpgWeaponTypes;
         public WeaponType[] bowWeaponTypes;
+        private float onlyArmsLayerWeight = 0f;
+        private float aimTimming = 0f;
         // From `vCharacter.cs`
         protected vAnimatorParameter hitDirectionHash;
         protected vAnimatorParameter reactionIDHash;
@@ -30,16 +36,8 @@ namespace MultiplayerARPG
         protected vAnimatorParameter triggerResetStateHash;
         protected vAnimatorParameter recoilIDHash;
         protected vAnimatorParameter triggerRecoilHash;
-        // From `vThirdPersonMother.cs`
-        internal AnimatorStateInfo baseLayerInfo, underBodyInfo, rightArmInfo, leftArmInfo, fullBodyInfo, upperBodyInfo;
-        public int baseLayer { get { return animator.GetLayerIndex("Base Layer"); } }
-        public int underBodyLayer { get { return animator.GetLayerIndex("UnderBody"); } }
-        public int rightArmLayer { get { return animator.GetLayerIndex("RightArm"); } }
-        public int leftArmLayer { get { return animator.GetLayerIndex("LeftArm"); } }
-        public int upperBodyLayer { get { return animator.GetLayerIndex("UpperBody"); } }
-        public int fullbodyLayer { get { return animator.GetLayerIndex("FullBody"); } }
         // From `vShooterMeleeInput.cs`
-        internal Transform leftHand, rightHand, rightLowerArm, leftLowerArm, rightUpperArm, leftUpperArm;
+        protected int onlyArmsLayer;
         // From `vShooterManager.cs`
         /// <summary>
         /// Animator Hash for IsShoot parameter 
@@ -111,12 +109,7 @@ namespace MultiplayerARPG
         {
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
-            leftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand);
-            rightHand = animator.GetBoneTransform(HumanBodyBones.RightHand);
-            leftLowerArm = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-            rightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-            leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-            rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+            onlyArmsLayer = animator.GetLayerIndex("OnlyArms");
             // Fill data ID hash set
             foreach (WeaponType type in swordWeaponTypes)
             {
@@ -153,6 +146,18 @@ namespace MultiplayerARPG
             foreach (WeaponType type in bowWeaponTypes)
             {
                 _bowWeaponTypes.Add(type.DataId);
+            }
+        }
+
+        private void Update()
+        {
+            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, (animator.GetFloat(vAnimatorParameters.UpperBody_ID) > 0f) ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
+            animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
+            if (aimTimming > 0)
+            {
+                aimTimming -= Time.deltaTime;
+                if (aimTimming <= 0f)
+                    animator.SetBool(vAnimatorParameters.IsAiming, false);
             }
         }
 
@@ -329,7 +334,7 @@ namespace MultiplayerARPG
             // TODO: Implement this, for only throwing item and bow
         }
 
-        public IEnumerator PlayAttackAnimation(int dataId)
+        public void PlayAttackAnimation(int dataId)
         {
             if (_swordWeaponTypes.Contains(dataId))
             {
@@ -351,57 +356,45 @@ namespace MultiplayerARPG
             }
             else if (_pistolWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 1);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else if (_rifleWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 2);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else if (_shotgunWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 3);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else if (_sniperWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 4);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else if (_rpgWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 5);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else if (_bowWeaponTypes.Contains(dataId))
             {
-                animator.SetBool(vAnimatorParameters.CanAim, true);
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
-                animator.SetBool(vAnimatorParameters.IsHipFire, true);
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 6);
                 animator.SetTrigger(IsShoot);
+                aimTimming = hipfireAimTime;
             }
             else
             {
@@ -409,15 +402,9 @@ namespace MultiplayerARPG
                 animator.SetInteger(vAnimatorParameters.AttackID, 0);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
             }
-            float totalDuration;
-            GetAttackAnimation(dataId, out _, out totalDuration);
-            yield return new WaitForSecondsRealtime(totalDuration);
-            animator.SetBool(vAnimatorParameters.CanAim, false);
-            animator.SetBool(vAnimatorParameters.IsAiming, false);
-            animator.SetBool(vAnimatorParameters.IsHipFire, false);
         }
 
-        public IEnumerator PlayReloadAnimation(int dataId)
+        public void PlayReloadAnimation(int dataId)
         {
             if (_pistolWeaponTypes.Contains(dataId))
             {
@@ -455,9 +442,6 @@ namespace MultiplayerARPG
                 animator.SetInteger(ReloadID, 5);
                 animator.SetTrigger(Reload);
             }
-            float totalDuration;
-            GetReloadAnimation(dataId, out _, out totalDuration);
-            yield return new WaitForSecondsRealtime(totalDuration);
         }
 
         public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, float playSpeedMultiplier = 1)
@@ -466,11 +450,11 @@ namespace MultiplayerARPG
             {
                 case AnimActionType.AttackLeftHand:
                 case AnimActionType.AttackRightHand:
-                    StartCoroutine(PlayAttackAnimation(dataId));
+                    PlayAttackAnimation(dataId);
                     break;
                 case AnimActionType.ReloadLeftHand:
                 case AnimActionType.ReloadRightHand:
-                    StartCoroutine(PlayReloadAnimation(dataId));
+                    PlayReloadAnimation(dataId);
                     break;
             }
         }
@@ -480,15 +464,43 @@ namespace MultiplayerARPG
             throw new System.NotImplementedException();
         }
 
+        public override void SetEquipWeapons(EquipWeapons equipWeapons)
+        {
+            base.SetEquipWeapons(equipWeapons);
+            IWeaponItem rightHandWeaponItem = equipWeapons.GetRightHandWeaponItem();
+            int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.DataId : 0;
+            if (_pistolWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
+            }
+            if (_rifleWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+            }
+            else if (_shotgunWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
+            }
+            else if (_sniperWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+            }
+            else if (_rpgWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
+            }
+            else if (_bowWeaponTypes.Contains(dataId))
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 5);
+            }
+            else
+            {
+                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 0);
+            }
+        }
+
         public override void PlayMoveAnimation()
         {
-            baseLayerInfo = animator.GetCurrentAnimatorStateInfo(baseLayer);
-            underBodyInfo = animator.GetCurrentAnimatorStateInfo(underBodyLayer);
-            rightArmInfo = animator.GetCurrentAnimatorStateInfo(rightArmLayer);
-            leftArmInfo = animator.GetCurrentAnimatorStateInfo(leftArmLayer);
-            upperBodyInfo = animator.GetCurrentAnimatorStateInfo(upperBodyLayer);
-            fullBodyInfo = animator.GetCurrentAnimatorStateInfo(fullbodyLayer);
-
             bool isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
             bool isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
@@ -558,6 +570,7 @@ namespace MultiplayerARPG
             animator.SetBool(vAnimatorParameters.IsDead, isDead);
             animator.SetFloat(vAnimatorParameters.GroundDistance, groundDistance);
             animator.SetFloat(vAnimatorParameters.GroundAngle, groundAngleFromDirection);
+            animator.SetBool(vAnimatorParameters.CanAim, true);
 
             if (!isGrounded)
             {
@@ -576,7 +589,7 @@ namespace MultiplayerARPG
             }
 
             animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), isStrafing ? strafeAnimationSmooth : freeAnimationSmooth, Time.unscaledDeltaTime);
-            // TODO: Implement this later
+            // TODO: Implement this later for more smooth movement
             /*
             if (useLeanMovementAnim && inputMagnitude > 0.1f)
             {
@@ -587,23 +600,6 @@ namespace MultiplayerARPG
                 animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, rotationMagnitude == 0 ? 0.1f : 0.01f, Time.fixedDeltaTime);
             }
             */
-        }
-
-        public virtual void SetActionState(int value)
-        {
-            animator.SetInteger(vAnimatorParameters.ActionState, value);
-        }
-
-        public virtual void ResetInputAnimatorParameters()
-        {
-            animator.SetBool(vAnimatorParameters.IsSprinting, false);
-            animator.SetBool(vAnimatorParameters.IsSliding, false);
-            animator.SetBool(vAnimatorParameters.IsCrouching, false);
-            animator.SetBool(vAnimatorParameters.IsGrounded, true);
-            animator.SetFloat(vAnimatorParameters.GroundDistance, 0f);
-            animator.SetFloat(vAnimatorParameters.InputHorizontal, 0f);
-            animator.SetFloat(vAnimatorParameters.InputVertical, 0f);
-            animator.SetFloat(vAnimatorParameters.InputMagnitude, 0f);
         }
     }
 }
