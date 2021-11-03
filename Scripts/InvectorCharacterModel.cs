@@ -14,6 +14,58 @@ namespace MultiplayerARPG
         public float strafeAnimationSmooth = 0.2f;
         [Range(0f, 1f)]
         public float freeAnimationSmooth = 0.2f;
+        /// <summary>
+        /// Attack ID = 0
+        /// </summary>
+        public WeaponType[] unarmedWeaponTypes;
+        /// <summary>
+        /// Attack ID = 1
+        /// </summary>
+        public WeaponType[] swordWeaponTypes;
+        /// <summary>
+        /// Attack ID = 4
+        /// </summary>
+        public WeaponType[] twoHandSwordWeaponTypes;
+        /// <summary>
+        /// Attack ID = 5
+        /// </summary>
+        public WeaponType[] dualSwordWeaponTypes;
+        /// <summary>
+        /// Reload ID = 1
+        /// Aiming ID = 1
+        /// Shot ID = 1
+        /// </summary>
+        public WeaponType[] pistolWeaponTypes;
+        /// <summary>
+        /// Reload ID = 2
+        /// Aiming ID = 2
+        /// Shot ID = 2
+        /// </summary>
+        public WeaponType[] rifleWeaponTypes;
+        /// <summary>
+        /// Reload ID = 3
+        /// Aiming ID = 3
+        /// Shot ID = 3
+        /// </summary>
+        public WeaponType[] shotgunWeaponTypes;
+        /// <summary>
+        /// Reload ID = 2
+        /// Aiming ID = 2
+        /// Shot ID = 4
+        /// </summary>
+        public WeaponType[] sniperWeaponTypes;
+        /// <summary>
+        /// Reload ID = 4
+        /// Aiming ID = 4
+        /// Shot ID = 5
+        /// </summary>
+        public WeaponType[] rpgWeaponTypes;
+        /// <summary>
+        /// Reload ID = 5
+        /// Aiming ID = 5
+        /// Shot ID = 6
+        /// </summary>
+        public WeaponType[] bowWeaponTypes;
         // From `vCharacter.cs`
         protected vAnimatorParameter hitDirectionHash;
         protected vAnimatorParameter reactionIDHash;
@@ -32,6 +84,18 @@ namespace MultiplayerARPG
         // From `vShooterMeleeInput.cs`
         internal Transform leftHand, rightHand, rightLowerArm, leftLowerArm, rightUpperArm, leftUpperArm;
 
+
+        private readonly HashSet<int> _unarmedWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _swordWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _twoHandSwordWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _dualSwordWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _pistolWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _rifleWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _shotgunWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _sniperWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _rpgWeaponTypes = new HashSet<int>();
+        private readonly HashSet<int> _bowWeaponTypes = new HashSet<int>();
+
         protected override void Awake()
         {
             if (animator == null)
@@ -42,36 +106,195 @@ namespace MultiplayerARPG
             rightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
             leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
             rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+            // Fill data ID hash set
+            foreach (WeaponType type in unarmedWeaponTypes)
+            {
+                _unarmedWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in swordWeaponTypes)
+            {
+                _swordWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in twoHandSwordWeaponTypes)
+            {
+                _twoHandSwordWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in dualSwordWeaponTypes)
+            {
+                _dualSwordWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in pistolWeaponTypes)
+            {
+                _pistolWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in rifleWeaponTypes)
+            {
+                _rifleWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in shotgunWeaponTypes)
+            {
+                _shotgunWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in sniperWeaponTypes)
+            {
+                _sniperWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in rpgWeaponTypes)
+            {
+                _rpgWeaponTypes.Add(type.DataId);
+            }
+            foreach (WeaponType type in bowWeaponTypes)
+            {
+                _bowWeaponTypes.Add(type.DataId);
+            }
+        }
+
+        public bool GetAttackAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
+        {
+            if (_unarmedWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.542f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_swordWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 1f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_twoHandSwordWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 1f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_dualSwordWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 1f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_pistolWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.233f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_rifleWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.133f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_shotgunWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.6f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_sniperWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.6f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_rpgWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.6f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_bowWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.208f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            totalDuration = 0;
+            triggerDurations = new float[0];
+            return false;
+        }
+
+        public bool GetReloadAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
+        {
+            if (_pistolWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 2.567f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_rifleWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 2.8f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_shotgunWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 0.723f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_sniperWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 2.8f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_rpgWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 1f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            if (_bowWeaponTypes.Contains(dataId))
+            {
+                totalDuration = 1f;
+                triggerDurations = new float[1] { totalDuration * 0.5f };
+                return true;
+            }
+            totalDuration = 0;
+            triggerDurations = new float[0];
+            return false;
         }
 
         public override bool GetLeftHandAttackAnimation(int dataId, int animationIndex, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override bool GetLeftHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
-        {
-            throw new System.NotImplementedException();
+            animSpeedRate = 1f;
+            return GetAttackAnimation(dataId, out triggerDurations, out totalDuration);
         }
 
         public override bool GetRandomLeftHandAttackAnimation(int dataId, int randomSeed, out int animationIndex, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
-            throw new System.NotImplementedException();
+            animSpeedRate = 1f;
+            animationIndex = 0;
+            return GetAttackAnimation(dataId, out triggerDurations, out totalDuration);
+        }
+
+        public override bool GetLeftHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
+        {
+            animSpeedRate = 1f;
+            return GetReloadAnimation(dataId, out triggerDurations, out totalDuration);
         }
 
         public override bool GetRightHandAttackAnimation(int dataId, int animationIndex, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override bool GetRightHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
-        {
-            throw new System.NotImplementedException();
+            animSpeedRate = 1f;
+            return GetAttackAnimation(dataId, out triggerDurations, out totalDuration);
         }
 
         public override bool GetRandomRightHandAttackAnimation(int dataId, int randomSeed, out int animationIndex, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
-            throw new System.NotImplementedException();
+            animSpeedRate = 1f;
+            animationIndex = 0;
+            return GetAttackAnimation(dataId, out triggerDurations, out totalDuration);
+        }
+
+        public override bool GetRightHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
+        {
+            animSpeedRate = 1f;
+            return GetReloadAnimation(dataId, out triggerDurations, out totalDuration);
         }
 
         public override bool GetSkillActivateAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
@@ -84,29 +307,29 @@ namespace MultiplayerARPG
             throw new System.NotImplementedException();
         }
 
-        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, float playSpeedMultiplier = 1)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void PlaySkillCastClip(int dataId, float duration)
         {
-            throw new System.NotImplementedException();
+            // TODO: May implement this?
         }
 
         public override void StopSkillCastAnimation()
         {
-            throw new System.NotImplementedException();
+            // TODO: May implement this?
         }
 
         public override void PlayWeaponChargeClip(int dataId, bool isLeftHand)
         {
-            throw new System.NotImplementedException();
+            // TODO: Implement this, for only throwing item and bow
         }
 
         public override void StopWeaponChargeAnimation()
         {
-            throw new System.NotImplementedException();
+            // TODO: Implement this, for only throwing item and bow
+        }
+
+        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, float playSpeedMultiplier = 1)
+        {
+
         }
 
         public override void StopActionAnimation()
@@ -132,7 +355,7 @@ namespace MultiplayerARPG
             bool isCrouching = extraMovementState == ExtraMovementState.IsCrouching;
             bool isCrawling = extraMovementState == ExtraMovementState.IsCrawling;
             bool isGrounded = movementState.Has(MovementState.IsGrounded);
-            // NOTE: Cannot find ground distance and ground angle from direction
+            // NOTE: Cannot find ground distance and ground angle from direction yet
             float groundDistance = 0f;
             float groundAngleFromDirection = 0f;
             float verticalVelocity = 0f;
