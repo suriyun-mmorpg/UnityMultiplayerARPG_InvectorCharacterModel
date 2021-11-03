@@ -130,6 +130,7 @@ namespace MultiplayerARPG
             // NOTE: Actually has no `isRolling` usage
             bool isRolling = false;
             bool isCrouching = extraMovementState == ExtraMovementState.IsCrouching;
+            bool isCrawling = extraMovementState == ExtraMovementState.IsCrawling;
             bool isGrounded = movementState.Has(MovementState.IsGrounded);
             // NOTE: Cannot find ground distance and ground angle from direction
             float groundDistance = 0f;
@@ -186,6 +187,9 @@ namespace MultiplayerARPG
             animator.SetBool(vAnimatorParameters.IsSprinting, isSprinting);
             animator.SetBool(vAnimatorParameters.IsSliding, isSliding && !isRolling);
             animator.SetBool(vAnimatorParameters.IsCrouching, isCrouching);
+#if MIS_CRAWLING
+            animator.SetBool("IsCrawling", isCrawling);
+#endif
             animator.SetBool(vAnimatorParameters.IsGrounded, isGrounded);
             animator.SetBool(vAnimatorParameters.IsDead, isDead);
             animator.SetFloat(vAnimatorParameters.GroundDistance, groundDistance);
@@ -208,6 +212,7 @@ namespace MultiplayerARPG
             }
 
             animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), isStrafing ? strafeAnimationSmooth : freeAnimationSmooth, Time.unscaledDeltaTime);
+            // TODO: Implement this later
             /*
             if (useLeanMovementAnim && inputMagnitude > 0.1f)
             {
