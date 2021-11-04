@@ -14,10 +14,21 @@ namespace MultiplayerARPG
         public float strafeAnimationSmooth = 0.2f;
         [Range(0f, 1f)]
         public float freeAnimationSmooth = 0.2f;
+        [Tooltip("Rotation speed of the character while strafing")]
+        public float strafeRotationSpeed = 20f;
+        [Tooltip("Rotation speed of the character while not strafing")]
+        public float freeRotationSpeed = 20f;
         [Tooltip("Control the speed of the Animator Layer OnlyArms Weight")]
         public float onlyArmsSpeed = 25f;
         [Tooltip("Time to keep aiming after shot")]
         public float hipfireAimTime = 2f;
+        [Tooltip("While in Free Locomotion the character will lean to left/right when steering")]
+        public bool useLeanMovementAnim = true;
+        [Tooltip("Smooth value for the Lean Movement animation")]
+        [Range(0.01f, 0.1f)]
+        public float leanSmooth = 0.05f;
+        [Tooltip("Check this to use the TurnOnSpot animations while the character is stading still and rotating in place")]
+        public bool useTurnOnSpotAnim = true;
         public WeaponType[] swordWeaponTypes;
         public WeaponType[] twoHandSwordWeaponTypes;
         public WeaponType[] dualSwordWeaponTypes;
@@ -27,18 +38,16 @@ namespace MultiplayerARPG
         public WeaponType[] sniperWeaponTypes;
         public WeaponType[] rpgWeaponTypes;
         public WeaponType[] bowWeaponTypes;
-        private float onlyArmsLayerWeight = 0f;
-        private float aimTimming = 0f;
-        // From `vCharacter.cs`
+
+        protected float onlyArmsLayerWeight = 0f;
+        protected float aimTimming = 0f;
         protected vAnimatorParameter hitDirectionHash;
         protected vAnimatorParameter reactionIDHash;
         protected vAnimatorParameter triggerReactionHash;
         protected vAnimatorParameter triggerResetStateHash;
         protected vAnimatorParameter recoilIDHash;
         protected vAnimatorParameter triggerRecoilHash;
-        // From `vShooterMeleeInput.cs`
         protected int onlyArmsLayer;
-        // From `vShooterManager.cs`
         /// <summary>
         /// Animator Hash for IsShoot parameter 
         /// </summary>
@@ -55,6 +64,14 @@ namespace MultiplayerARPG
         /// Animator Hash for IsCrawling parameter
         /// </summary>
         internal readonly int IsCrawling = Animator.StringToHash("IsCrawling");
+        /// <summary>
+        /// sets the rotationMagnitude to update the animations in the animator controller
+        /// </summary>
+        internal float rotationMagnitude;
+        /// <summary>
+        /// Last angle of the character used to calculate rotationMagnitude
+        /// </summary>
+        protected Vector3 lastCharacterAngle;
 
         /// <summary>
         /// Attack ID = 1
@@ -518,7 +535,11 @@ namespace MultiplayerARPG
             float verticalSpeed = 0f;
             float inputMagnitude = 0f;
             float stopMoveWeight = 0f;
-            float rotationMagnitude = 0f;
+
+            var eulerDifference = transform.eulerAngles - lastCharacterAngle;
+            var magnitude = (eulerDifference.NormalizeAngle().y / (isStrafing ? strafeRotationSpeed : freeRotationSpeed));
+            rotationMagnitude = magnitude;
+            lastCharacterAngle = transform.eulerAngles;
 
             if (movementState.Has(MovementState.Forward))
             {
@@ -589,8 +610,7 @@ namespace MultiplayerARPG
             }
 
             animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), isStrafing ? strafeAnimationSmooth : freeAnimationSmooth, Time.unscaledDeltaTime);
-            // TODO: Implement this later for more smooth movement
-            /*
+
             if (useLeanMovementAnim && inputMagnitude > 0.1f)
             {
                 animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, leanSmooth, Time.fixedDeltaTime);
@@ -599,7 +619,6 @@ namespace MultiplayerARPG
             {
                 animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, rotationMagnitude == 0 ? 0.1f : 0.01f, Time.fixedDeltaTime);
             }
-            */
         }
     }
 }
