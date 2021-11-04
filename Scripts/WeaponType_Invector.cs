@@ -17,6 +17,7 @@ namespace MultiplayerARPG
             Bow,
         }
 
+        [Category("Weapon Type Settings")]
         [Header("Invector")]
         [SerializeField]
         private EInvectorWeaponType invectorWeaponType;
