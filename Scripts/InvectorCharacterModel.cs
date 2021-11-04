@@ -108,6 +108,10 @@ namespace MultiplayerARPG
         protected int onlyArmsLayer;
         protected bool dirtyIsDead = true;
         /// <summary>
+        /// Animator Hash for RandomAttack parameter 
+        /// </summary>
+        internal readonly int RandomAttack = Animator.StringToHash("RandomAttack");
+        /// <summary>
         /// Animator Hash for IsShoot parameter 
         /// </summary>
         internal readonly int IsShoot = Animator.StringToHash("Shoot");
@@ -151,74 +155,81 @@ namespace MultiplayerARPG
             }
         }
 
-        public bool GetAttackAnimation(int dataId, int animationIndex, out float[] triggerDurations, out float totalDuration)
+        public ClipLengthData[] GetAttackClipLengths(int dataId)
         {
-            ClipLengthData tempClipLengthData;
             if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = swordAttackClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return swordAttackClipLengths;
             }
             if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = twoHandSwordAttackClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return twoHandSwordAttackClipLengths;
             }
             if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = dualSwordAttackClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return dualSwordAttackClipLengths;
             }
             if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = pistolRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return pistolRecoilClipLengths;
             }
             if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = rifleRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return rifleRecoilClipLengths;
             }
             if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = shotgunRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return shotgunRecoilClipLengths;
             }
             if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = sniperRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return sniperRecoilClipLengths;
             }
             if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = rpgRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return rpgRecoilClipLengths;
             }
             if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
-                tempClipLengthData = bowRecoilClipLengths[animationIndex];
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
+                return bowRecoilClipLengths;
             }
             // Unarmed
-            tempClipLengthData = unarmedAttackClipLengths[animationIndex];
+            return unarmedAttackClipLengths;
+        }
+
+        public ClipLengthData GetReloadClipLength(int dataId)
+        {
+            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            {
+                return pistolReloadClipLength;
+            }
+            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            {
+                return rifleReloadClipLength;
+            }
+            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            {
+                return shotgunReloadClipLength;
+            }
+            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            {
+                return sniperReloadClipLength;
+            }
+            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            {
+                return rpgReloadClipLength;
+            }
+            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            {
+                return bowReloadClipLength;
+            }
+            // Unknow
+            return default;
+        }
+
+        public bool GetAttackAnimation(int dataId, int animationIndex, out float[] triggerDurations, out float totalDuration)
+        {
+            ClipLengthData tempClipLengthData = GetAttackClipLengths(dataId)[animationIndex];
             totalDuration = tempClipLengthData.clipLength;
             triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
             return true;
@@ -226,104 +237,16 @@ namespace MultiplayerARPG
 
         public bool GetReloadAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
         {
-            ClipLengthData tempClipLengthData;
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = pistolReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = rifleReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = shotgunReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = sniperReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = rpgReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
-            {
-                tempClipLengthData = bowReloadClipLength;
-                totalDuration = tempClipLengthData.clipLength;
-                triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
-                return true;
-            }
-            // No reloading
-            totalDuration = 0f;
-            triggerDurations = new float[0];
-            return false;
+            ClipLengthData tempClipLengthData = GetReloadClipLength(dataId);
+            totalDuration = tempClipLengthData.clipLength;
+            triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
+            return true;
         }
 
         public bool GetAttackAnimation(int dataId, out int animationIndex, out float[] triggerDurations, out float totalDuration)
         {
-            if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, swordAttackClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, twoHandSwordAttackClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, dualSwordAttackClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, pistolRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, rifleRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, shotgunRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, sniperRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, rpgRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
-            {
-                animationIndex = Random.Range(0, bowRecoilClipLengths.Length);
-                return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
-            }
-            // Unarmed
-            animationIndex = Random.Range(0, unarmedAttackClipLengths.Length);
+            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
+            animationIndex = Random.Range(0, tempClipLengths.Length);
             return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
         }
 
@@ -393,25 +316,28 @@ namespace MultiplayerARPG
             // TODO: Implement this, for only throwing item and bow
         }
 
-        public void PlayAttackAnimation(int dataId)
+        public void PlayAttackAnimation(int dataId, int animationIndex)
         {
             if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 1);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(RandomAttack, animationIndex);
             }
             else if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 4);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(RandomAttack, animationIndex);
             }
             else if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 5);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(RandomAttack, animationIndex);
             }
             else if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
@@ -509,7 +435,7 @@ namespace MultiplayerARPG
             {
                 case AnimActionType.AttackLeftHand:
                 case AnimActionType.AttackRightHand:
-                    PlayAttackAnimation(dataId);
+                    PlayAttackAnimation(dataId, index);
                     break;
                 case AnimActionType.ReloadLeftHand:
                 case AnimActionType.ReloadRightHand:
