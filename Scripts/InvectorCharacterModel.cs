@@ -491,7 +491,7 @@ namespace MultiplayerARPG
         public override void SetEquipWeapons(EquipWeapons equipWeapons)
         {
             IWeaponItem rightHandWeaponItem = equipWeapons.GetRightHandWeaponItem();
-            int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.DataId : 0;
+            int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.WeaponType.DataId : 0;
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 0);
