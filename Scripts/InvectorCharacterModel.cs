@@ -161,39 +161,39 @@ namespace MultiplayerARPG
 
         public ClipLengthData[] GetAttackClipLengths(int dataId)
         {
-            if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sword)
             {
                 return swordAttackClipLengths;
             }
-            if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.TwoHandSword)
             {
                 return twoHandSwordAttackClipLengths;
             }
-            if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
             {
                 return dualSwordAttackClipLengths;
             }
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
             {
                 return pistolRecoilClipLengths;
             }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
             {
                 return rifleRecoilClipLengths;
             }
-            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
             {
                 return shotgunRecoilClipLengths;
             }
-            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
             {
                 return sniperRecoilClipLengths;
             }
-            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
             {
                 return rpgRecoilClipLengths;
             }
-            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
             {
                 return bowRecoilClipLengths;
             }
@@ -203,27 +203,27 @@ namespace MultiplayerARPG
 
         public ClipLengthData GetReloadClipLength(int dataId)
         {
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
             {
                 return pistolReloadClipLength;
             }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
             {
                 return rifleReloadClipLength;
             }
-            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
             {
                 return shotgunReloadClipLength;
             }
-            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
             {
                 return sniperReloadClipLength;
             }
-            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
             {
                 return rpgReloadClipLength;
             }
-            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
             {
                 return bowReloadClipLength;
             }
@@ -331,63 +331,63 @@ namespace MultiplayerARPG
 
         public void PlayAttackAnimation(int dataId, int animationIndex)
         {
-            if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sword)
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 1);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(RandomAttack, animationIndex);
             }
-            else if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.TwoHandSword)
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 4);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(RandomAttack, animationIndex);
             }
-            else if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 5);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(RandomAttack, animationIndex);
             }
-            else if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 1);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 2);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 3);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 4);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 5);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 6);
@@ -406,37 +406,37 @@ namespace MultiplayerARPG
 
         public void PlayReloadAnimation(int dataId)
         {
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 1);
                 animator.SetTrigger(Reload);
             }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 2);
                 animator.SetTrigger(Reload);
             }
-            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 3);
                 animator.SetTrigger(Reload);
             }
-            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 2);
                 animator.SetTrigger(Reload);
             }
-            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 4);
                 animator.SetTrigger(Reload);
             }
-            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 5);
@@ -469,27 +469,27 @@ namespace MultiplayerARPG
             base.SetEquipWeapons(equipWeapons);
             IWeaponItem rightHandWeaponItem = equipWeapons.GetRightHandWeaponItem();
             int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.DataId : 0;
-            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
+            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
             }
-            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
             }
-            else if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
             }
-            else if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
             }
-            else if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
             }
-            else if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
+            else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 5);
             }
