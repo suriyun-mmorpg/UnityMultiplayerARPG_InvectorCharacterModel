@@ -29,25 +29,11 @@ namespace MultiplayerARPG
         public float leanSmooth = 0.05f;
         [Tooltip("Check this to use the TurnOnSpot animations while the character is stading still and rotating in place")]
         public bool useTurnOnSpotAnim = true;
-        public WeaponType[] swordWeaponTypes;
-        public WeaponType[] twoHandSwordWeaponTypes;
-        public WeaponType[] dualSwordWeaponTypes;
-        public WeaponType[] pistolWeaponTypes;
-        public WeaponType[] rifleWeaponTypes;
-        public WeaponType[] shotgunWeaponTypes;
-        public WeaponType[] sniperWeaponTypes;
-        public WeaponType[] rpgWeaponTypes;
-        public WeaponType[] bowWeaponTypes;
 
         protected float onlyArmsLayerWeight = 0f;
         protected float aimTimming = 0f;
-        protected vAnimatorParameter hitDirectionHash;
-        protected vAnimatorParameter reactionIDHash;
-        protected vAnimatorParameter triggerReactionHash;
-        protected vAnimatorParameter triggerResetStateHash;
-        protected vAnimatorParameter recoilIDHash;
-        protected vAnimatorParameter triggerRecoilHash;
         protected int onlyArmsLayer;
+        protected bool dirtyIsDead = true;
         /// <summary>
         /// Animator Hash for IsShoot parameter 
         /// </summary>
@@ -73,97 +59,11 @@ namespace MultiplayerARPG
         /// </summary>
         protected Vector3 lastCharacterAngle;
 
-        /// <summary>
-        /// Attack ID = 1
-        /// </summary>
-        private readonly HashSet<int> _swordWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Attack ID = 4
-        /// </summary>
-        private readonly HashSet<int> _twoHandSwordWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Attack ID = 5
-        /// </summary>
-        private readonly HashSet<int> _dualSwordWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 1
-        /// Aiming ID = 1
-        /// Shot ID = 1
-        /// </summary>
-        private readonly HashSet<int> _pistolWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 2
-        /// Aiming ID = 2
-        /// Shot ID = 2
-        /// </summary>
-        private readonly HashSet<int> _rifleWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 3
-        /// Aiming ID = 3
-        /// Shot ID = 3
-        /// </summary>
-        private readonly HashSet<int> _shotgunWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 2
-        /// Aiming ID = 2
-        /// Shot ID = 4
-        /// </summary>
-        private readonly HashSet<int> _sniperWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 4
-        /// Aiming ID = 4
-        /// Shot ID = 5
-        /// </summary>
-        private readonly HashSet<int> _rpgWeaponTypes = new HashSet<int>();
-        /// <summary>
-        /// Reload ID = 5
-        /// Aiming ID = 5
-        /// Shot ID = 6
-        /// </summary>
-        private readonly HashSet<int> _bowWeaponTypes = new HashSet<int>();
-
         protected override void Awake()
         {
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
             onlyArmsLayer = animator.GetLayerIndex("OnlyArms");
-            // Fill data ID hash set
-            foreach (WeaponType type in swordWeaponTypes)
-            {
-                _swordWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in twoHandSwordWeaponTypes)
-            {
-                _twoHandSwordWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in dualSwordWeaponTypes)
-            {
-                _dualSwordWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in pistolWeaponTypes)
-            {
-                _pistolWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in rifleWeaponTypes)
-            {
-                _rifleWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in shotgunWeaponTypes)
-            {
-                _shotgunWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in sniperWeaponTypes)
-            {
-                _sniperWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in rpgWeaponTypes)
-            {
-                _rpgWeaponTypes.Add(type.DataId);
-            }
-            foreach (WeaponType type in bowWeaponTypes)
-            {
-                _bowWeaponTypes.Add(type.DataId);
-            }
         }
 
         private void Update()
@@ -180,55 +80,55 @@ namespace MultiplayerARPG
 
         public bool GetAttackAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
         {
-            if (_swordWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_twoHandSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_dualSwordWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_pistolWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.233f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_rifleWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.133f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_shotgunWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.6f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_sniperWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.6f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_rpgWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.6f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_bowWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.208f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
@@ -242,37 +142,37 @@ namespace MultiplayerARPG
 
         public bool GetReloadAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
         {
-            if (_pistolWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
                 totalDuration = 2.567f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_rifleWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
                 totalDuration = 2.8f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_shotgunWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
                 totalDuration = 0.723f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_sniperWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
                 totalDuration = 2.8f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_rpgWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
                 return true;
             }
-            if (_bowWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
                 totalDuration = 1f;
                 triggerDurations = new float[1] { totalDuration * 0.5f };
@@ -353,60 +253,60 @@ namespace MultiplayerARPG
 
         public void PlayAttackAnimation(int dataId)
         {
-            if (_swordWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 1);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
             }
-            else if (_twoHandSwordWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorTwoHandSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 4);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
             }
-            else if (_dualSwordWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorDualSwordWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 5);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
             }
-            else if (_pistolWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 1);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (_rifleWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 2);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (_shotgunWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 3);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (_sniperWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 4);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (_rpgWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 5);
                 animator.SetTrigger(IsShoot);
                 aimTimming = hipfireAimTime;
             }
-            else if (_bowWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
                 animator.SetBool(vAnimatorParameters.IsAiming, true);
                 animator.SetFloat(vAnimatorParameters.Shot_ID, 6);
@@ -423,37 +323,37 @@ namespace MultiplayerARPG
 
         public void PlayReloadAnimation(int dataId)
         {
-            if (_pistolWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 1);
                 animator.SetTrigger(Reload);
             }
-            if (_rifleWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 2);
                 animator.SetTrigger(Reload);
             }
-            if (_shotgunWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 3);
                 animator.SetTrigger(Reload);
             }
-            if (_sniperWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 2);
                 animator.SetTrigger(Reload);
             }
-            if (_rpgWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 4);
                 animator.SetTrigger(Reload);
             }
-            if (_bowWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
                 animator.ResetTrigger(Reload);
                 animator.SetInteger(ReloadID, 5);
@@ -486,27 +386,27 @@ namespace MultiplayerARPG
             base.SetEquipWeapons(equipWeapons);
             IWeaponItem rightHandWeaponItem = equipWeapons.GetRightHandWeaponItem();
             int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.DataId : 0;
-            if (_pistolWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorPistolWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
             }
-            if (_rifleWeaponTypes.Contains(dataId))
+            if (GameInstance.Singleton.InvectorRifleWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
             }
-            else if (_shotgunWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorShotgunWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
             }
-            else if (_sniperWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorSniperWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
             }
-            else if (_rpgWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorRpgWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
             }
-            else if (_bowWeaponTypes.Contains(dataId))
+            else if (GameInstance.Singleton.InvectorBowWeaponTypes.Contains(dataId))
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 5);
             }
@@ -518,6 +418,16 @@ namespace MultiplayerARPG
 
         public override void PlayMoveAnimation()
         {
+            if (dirtyIsDead != isDead)
+            {
+                dirtyIsDead = isDead;
+                ResetAnimatorParameters();
+                animator.SetBool(vAnimatorParameters.IsDead, isDead);
+            }
+
+            if (isDead)
+                return;
+
             bool isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
             bool isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
@@ -588,7 +498,6 @@ namespace MultiplayerARPG
             animator.SetBool(vAnimatorParameters.IsCrouching, isCrouching);
             animator.SetBool(IsCrawling, isCrawling);
             animator.SetBool(vAnimatorParameters.IsGrounded, isGrounded);
-            animator.SetBool(vAnimatorParameters.IsDead, isDead);
             animator.SetFloat(vAnimatorParameters.GroundDistance, groundDistance);
             animator.SetFloat(vAnimatorParameters.GroundAngle, groundAngleFromDirection);
             animator.SetBool(vAnimatorParameters.CanAim, true);
@@ -619,6 +528,20 @@ namespace MultiplayerARPG
             {
                 animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, rotationMagnitude == 0 ? 0.1f : 0.01f, Time.fixedDeltaTime);
             }
+        }
+
+        public void ResetAnimatorParameters()
+        {
+            animator.SetBool(vAnimatorParameters.IsSprinting, false);
+            animator.SetBool(vAnimatorParameters.IsSliding, false);
+            animator.SetBool(vAnimatorParameters.IsCrouching, false);
+            animator.SetBool(IsCrawling, false);
+            animator.SetBool(vAnimatorParameters.IsGrounded, true);
+            animator.SetFloat(vAnimatorParameters.GroundDistance, 0f);
+            animator.SetFloat(vAnimatorParameters.InputHorizontal, 0);
+            animator.SetFloat(vAnimatorParameters.InputVertical, 0);
+            animator.SetFloat(vAnimatorParameters.InputMagnitude, 0);
+            animator.SetFloat(vAnimatorParameters.RotationMagnitude, 0);
         }
     }
 }
