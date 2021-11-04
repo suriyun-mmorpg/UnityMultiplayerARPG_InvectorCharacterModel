@@ -111,9 +111,6 @@ namespace MultiplayerARPG
         protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
         protected bool jumpFallen = true;
-        protected float leftMoveDuration = 0;
-        protected float rightMoveDuration = 0;
-        protected float backwardMoveDuration = 0;
         /// <summary>
         /// Animator Hash for RandomAttack parameter 
         /// </summary>
@@ -516,43 +513,7 @@ namespace MultiplayerARPG
                 return;
 
             float deltaTime = Time.deltaTime;
-            bool isStrafing = false;
-            if (movementState.Has(MovementState.Left))
-            {
-                if (leftMoveDuration > 0.5f)
-                {
-                    isStrafing = true;
-                }
-                leftMoveDuration += deltaTime;
-            }
-            else
-            {
-                leftMoveDuration = 0;
-            }
-            if (movementState.Has(MovementState.Right))
-            {
-                if (rightMoveDuration > 0.5f)
-                {
-                    isStrafing = true;
-                }
-                rightMoveDuration += deltaTime;
-            }
-            else
-            {
-                rightMoveDuration = 0;
-            }
-            if (movementState.Has(MovementState.Backward))
-            {
-                if (backwardMoveDuration > 0.5f)
-                {
-                    isStrafing = true;
-                }
-                backwardMoveDuration += deltaTime;
-            }
-            else
-            {
-                backwardMoveDuration = 0;
-            }
+            bool isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
             bool isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
             bool isSliding = false;
@@ -671,9 +632,6 @@ namespace MultiplayerARPG
             animator.SetFloat(vAnimatorParameters.InputVertical, 0);
             animator.SetFloat(vAnimatorParameters.InputMagnitude, 0);
             animator.SetFloat(vAnimatorParameters.RotationMagnitude, 0);
-            leftMoveDuration = 0;
-            rightMoveDuration = 0;
-            backwardMoveDuration = 0;
         }
     }
 }
