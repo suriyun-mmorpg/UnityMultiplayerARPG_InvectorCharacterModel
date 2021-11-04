@@ -18,6 +18,7 @@ namespace MultiplayerARPG
         }
 
         [Header("Invector")]
+        [SerializeField]
         private EInvectorWeaponType invectorWeaponType;
         public EInvectorWeaponType InvectorWeaponType
         {
