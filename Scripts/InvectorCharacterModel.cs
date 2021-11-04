@@ -47,6 +47,8 @@ namespace MultiplayerARPG
         public float leanSmooth = 0.05f;
         [Tooltip("Check this to use the TurnOnSpot animations while the character is stading still and rotating in place")]
         public bool useTurnOnSpotAnim = true;
+        [Tooltip("If this is true it will play attack animation clips by order, no random")]
+        public bool playAttackClipByOrder = true;
 
         [Header("Animation Clip Length")]
         public ClipLengthData[] unarmedAttackClipLengths = new ClipLengthData[]
@@ -106,7 +108,12 @@ namespace MultiplayerARPG
         protected float onlyArmsLayerWeight = 0f;
         protected float aimTimming = 0f;
         protected int onlyArmsLayer;
+        protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
+        protected bool jumpFallen = true;
+        protected float leftMoveDuration = 0;
+        protected float rightMoveDuration = 0;
+        protected float backwardMoveDuration = 0;
         /// <summary>
         /// Animator Hash for RandomAttack parameter 
         /// </summary>
@@ -246,7 +253,16 @@ namespace MultiplayerARPG
         public bool GetAttackAnimation(int dataId, out int animationIndex, out float[] triggerDurations, out float totalDuration)
         {
             ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
-            animationIndex = Random.Range(0, tempClipLengths.Length);
+            if (playAttackClipByOrder)
+            {
+                if (currentAttackClipIndex >= tempClipLengths.Length)
+                    currentAttackClipIndex = 0;
+                animationIndex = currentAttackClipIndex;
+            }
+            else
+            {
+                animationIndex = Random.Range(0, tempClipLengths.Length);
+            }
             return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
         }
 
@@ -386,7 +402,9 @@ namespace MultiplayerARPG
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
                 animator.SetInteger(vAnimatorParameters.AttackID, 0);
                 animator.SetTrigger(vAnimatorParameters.WeakAttack);
+                animator.SetInteger(RandomAttack, animationIndex);
             }
+            currentAttackClipIndex++;
         }
 
         public void PlayReloadAnimation(int dataId)
@@ -482,6 +500,7 @@ namespace MultiplayerARPG
             {
                 animator.SetFloat(vAnimatorParameters.UpperBody_ID, 0);
             }
+            currentAttackClipIndex = 0;
         }
 
         public override void PlayMoveAnimation()
@@ -496,7 +515,44 @@ namespace MultiplayerARPG
             if (isDead)
                 return;
 
-            bool isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
+            float deltaTime = Time.deltaTime;
+            bool isStrafing = false;
+            if (movementState.Has(MovementState.Left))
+            {
+                if (leftMoveDuration > 0.5f)
+                {
+                    isStrafing = true;
+                }
+                leftMoveDuration += deltaTime;
+            }
+            else
+            {
+                leftMoveDuration = 0;
+            }
+            if (movementState.Has(MovementState.Right))
+            {
+                if (rightMoveDuration > 0.5f)
+                {
+                    isStrafing = true;
+                }
+                rightMoveDuration += deltaTime;
+            }
+            else
+            {
+                rightMoveDuration = 0;
+            }
+            if (movementState.Has(MovementState.Backward))
+            {
+                if (backwardMoveDuration > 0.5f)
+                {
+                    isStrafing = true;
+                }
+                backwardMoveDuration += deltaTime;
+            }
+            else
+            {
+                backwardMoveDuration = 0;
+            }
             bool isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
             bool isSliding = false;
@@ -540,8 +596,9 @@ namespace MultiplayerARPG
                 inputMagnitude = 1f;
             }
 
-            if (movementState.Has(MovementState.IsJump))
+            if (jumpFallen && movementState.Has(MovementState.IsJump))
             {
+                jumpFallen = false;
                 if (inputMagnitude < 0.1f)
                 {
                     animator.CrossFadeInFixedTime("Jump", 0.1f);
@@ -557,7 +614,10 @@ namespace MultiplayerARPG
                 verticalVelocity = 10f;
             }
 
-            if (extraMovementState == ExtraMovementState.IsSprinting)
+            if (!jumpFallen && movementState.Has(MovementState.IsGrounded))
+                jumpFallen = true;
+
+            if (movementState.Has(MovementState.IsGrounded) && extraMovementState == ExtraMovementState.IsSprinting)
                 inputMagnitude *= 1.5f;
 
             animator.SetBool(vAnimatorParameters.IsStrafing, isStrafing);
@@ -577,29 +637,30 @@ namespace MultiplayerARPG
 
             if (isStrafing)
             {
-                animator.SetFloat(vAnimatorParameters.InputHorizontal, horizontalSpeed, strafeAnimationSmooth, Time.unscaledDeltaTime);
-                animator.SetFloat(vAnimatorParameters.InputVertical, verticalSpeed, strafeAnimationSmooth, Time.unscaledDeltaTime);
+                animator.SetFloat(vAnimatorParameters.InputHorizontal, horizontalSpeed, strafeAnimationSmooth, deltaTime);
+                animator.SetFloat(vAnimatorParameters.InputVertical, verticalSpeed, strafeAnimationSmooth, deltaTime);
+                animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), strafeAnimationSmooth, deltaTime);
             }
             else
             {
-                animator.SetFloat(vAnimatorParameters.InputVertical, verticalSpeed, freeAnimationSmooth, Time.unscaledDeltaTime);
-                animator.SetFloat(vAnimatorParameters.InputHorizontal, 0, freeAnimationSmooth, Time.unscaledDeltaTime);
+                animator.SetFloat(vAnimatorParameters.InputVertical, verticalSpeed, freeAnimationSmooth, deltaTime);
+                animator.SetFloat(vAnimatorParameters.InputHorizontal, 0, freeAnimationSmooth, deltaTime);
+                animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), freeAnimationSmooth, deltaTime);
             }
-
-            animator.SetFloat(vAnimatorParameters.InputMagnitude, Mathf.LerpUnclamped(inputMagnitude, 0f, stopMoveWeight), isStrafing ? strafeAnimationSmooth : freeAnimationSmooth, Time.unscaledDeltaTime);
 
             if (useLeanMovementAnim && inputMagnitude > 0.1f)
             {
-                animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, leanSmooth, Time.fixedDeltaTime);
+                animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, leanSmooth, deltaTime);
             }
             else if (useTurnOnSpotAnim)
             {
-                animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, rotationMagnitude == 0 ? 0.1f : 0.01f, Time.fixedDeltaTime);
+                animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, rotationMagnitude == 0 ? 0.1f : 0.01f, deltaTime);
             }
         }
 
         public void ResetAnimatorParameters()
         {
+            animator.SetBool(vAnimatorParameters.IsStrafing, false);
             animator.SetBool(vAnimatorParameters.IsSprinting, false);
             animator.SetBool(vAnimatorParameters.IsSliding, false);
             animator.SetBool(vAnimatorParameters.IsCrouching, false);
@@ -610,6 +671,9 @@ namespace MultiplayerARPG
             animator.SetFloat(vAnimatorParameters.InputVertical, 0);
             animator.SetFloat(vAnimatorParameters.InputMagnitude, 0);
             animator.SetFloat(vAnimatorParameters.RotationMagnitude, 0);
+            leftMoveDuration = 0;
+            rightMoveDuration = 0;
+            backwardMoveDuration = 0;
         }
     }
 }
