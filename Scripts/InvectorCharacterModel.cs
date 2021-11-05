@@ -524,6 +524,11 @@ namespace MultiplayerARPG
                     upperBodyId = 0;
                     movesetId = 2;
                 }
+                else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
+                {
+                    upperBodyId = 1;
+                    movesetId = 1;
+                }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
                 {
                     upperBodyId = 2;
