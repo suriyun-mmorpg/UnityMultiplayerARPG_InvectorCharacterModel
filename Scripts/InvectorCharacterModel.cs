@@ -111,6 +111,7 @@ namespace MultiplayerARPG
         protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
         protected bool jumpFallen = true;
+        protected float upperBodyId = 0f;
         /// <summary>
         /// Animator Hash for RandomAttack parameter 
         /// </summary>
@@ -150,7 +151,7 @@ namespace MultiplayerARPG
 
         private void Update()
         {
-            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, (animator.GetFloat(vAnimatorParameters.UpperBody_ID) > 0f) ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
+            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
             if (aimTimming > 0)
             {
@@ -374,6 +375,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 1);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -381,6 +383,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 2);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -388,6 +391,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 3);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -395,6 +399,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 4);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -402,6 +407,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 5);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -409,6 +415,7 @@ namespace MultiplayerARPG
                 {
                     animator.SetBool(vAnimatorParameters.IsAiming, true);
                     animator.SetFloat(vAnimatorParameters.Shot_ID, 6);
+                    animator.ResetTrigger(IsShoot);
                     animator.SetTrigger(IsShoot);
                     aimTimming = hipfireAimTime;
                 }
@@ -494,41 +501,52 @@ namespace MultiplayerARPG
             int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.WeaponType.DataId : 0;
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
-                animator.SetFloat(vAnimatorParameters.UpperBody_ID, 0);
+                upperBodyId = 0;
             }
             else
             {
                 if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 1);
+                    upperBodyId = 1;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+                    upperBodyId = 2;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 3);
+                    upperBodyId = 3;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 2);
+                    upperBodyId = 2;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 4);
+                    upperBodyId = 4;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 5);
+                    upperBodyId = 5;
                 }
                 else
                 {
-                    animator.SetFloat(vAnimatorParameters.UpperBody_ID, 0);
+                    upperBodyId = 0;
                 }
             }
+            if (!enabled)
+            {
+                animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
+            }
+            animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
             currentAttackClipIndex = 0;
             base.SetEquipWeapons(equipWeapons);
+        }
+
+        private void OnDisable()
+        {
+            animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
+            animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
         }
 
         public override void PlayMoveAnimation()
