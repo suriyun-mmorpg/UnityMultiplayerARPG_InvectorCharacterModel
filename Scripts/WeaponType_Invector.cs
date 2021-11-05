@@ -15,6 +15,7 @@ namespace MultiplayerARPG
             Sniper,
             Rpg,
             Bow,
+            Unarmed = 254,
         }
 
         [Category("Weapon Type Settings")]
