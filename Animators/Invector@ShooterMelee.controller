@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9220113407511618666
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.5
-  endDamage: 0.8
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1109 &-9028264532045329594
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -65,31 +39,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 492, y: 156, z: 0}
   m_ParentStateMachinePosition: {x: -12, y: 144, z: 0}
   m_DefaultState: {fileID: -5821306946721264065}
---- !u!1101 &-8867952904414247999
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: StrongAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -7451902924358909074}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.12413123
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1109 &-8844190462781615175
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -132,23 +81,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-8779316312942535743
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d23a79fe8deb55a4fb192f4d8b417fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stateInfos: []
-  tags:
-  - Attack
-  - LockMovement
-  - LockRotation
 --- !u!206 &-8650211228068017661
 BlendTree:
   m_ObjectHideFlags: 1
@@ -190,32 +122,6 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!114 &-8644655327554512661
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1109 &-8595533731869709148
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -301,9 +207,6 @@ AnimatorStateMachine:
   m_ChildStates: []
   m_ChildStateMachines:
   - serializedVersion: 1
-    m_StateMachine: {fileID: 8538801491780991600}
-    m_Position: {x: 500, y: -10, z: 0}
-  - serializedVersion: 1
     m_StateMachine: {fileID: -5691577695846861302}
     m_Position: {x: 500, y: 50, z: 0}
   - serializedVersion: 1
@@ -343,54 +246,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &-8100919404933513450
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!114 &-7847981689562064358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.7
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!114 &-7608754750601074961
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,36 +300,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: -60, y: 24, z: 0}
   m_ParentStateMachinePosition: {x: -552, y: -72, z: 0}
   m_DefaultState: {fileID: -5821306946721264065}
---- !u!1102 &-7451902924358909074
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: B
-  m_Speed: 0.8
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -2857264119028412177}
-  - {fileID: 8053768698831191922}
-  m_StateMachineBehaviours:
-  - {fileID: 4482435614606233292}
-  - {fileID: 3318771378194121377}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400042, guid: 71a860de405aaeb44ace152c21808003, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &-7433456492043110695
 AnimatorStateMachine:
   serializedVersion: 6
@@ -544,51 +369,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-7252383984308060381
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.3
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 1
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
---- !u!114 &-7227683364208493707
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
 --- !u!1101 &-7219425155173275355
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -696,51 +476,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!114 &-6738519657690025492
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
---- !u!114 &-6737018730132959770
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1102 &-6720610507586441368
 AnimatorState:
   serializedVersion: 6
@@ -753,9 +488,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1195134912391833507}
-  m_StateMachineBehaviours:
-  - {fileID: 966672429249620441}
-  - {fileID: -1905071970658268117}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -855,28 +588,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &-6262897059369572493
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.15
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1102 &-6120779546964388499
 AnimatorState:
   serializedVersion: 6
@@ -905,32 +616,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &-6102081459397997679
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.1
-  endDamage: 0.55
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1101 &-6082683677406949223
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1106,22 +791,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 564, y: 144, z: 0}
   m_ParentStateMachinePosition: {x: 290, y: 40, z: 0}
   m_DefaultState: {fileID: 6601419818181877096}
---- !u!114 &-5640094845934703060
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!206 &-5582137173886110307
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1242,22 +911,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-5231342358733469761
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1109 &-5161700177831072605
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1300,25 +953,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-5088742540136579239
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1109 &-5048144432544677400
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1333,22 +967,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 1
---- !u!114 &-4956250241690895161
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1101 &-4933467905508636413
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1374,25 +992,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-4859409740388902698
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
 --- !u!1101 &-4784342011450207672
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1476,22 +1075,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-4266020990715855041
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  triggerTime: 0
 --- !u!206 &-4245359335049363815
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1623,34 +1206,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 600, y: 48, z: 0}
   m_ParentStateMachinePosition: {x: 24, y: 0, z: 0}
   m_DefaultState: {fileID: -2300822351714236472}
---- !u!1107 &-3826889390501975887
-AnimatorStateMachine:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unarmed
-  m_ChildStates:
-  - serializedVersion: 1
-    m_State: {fileID: 1305470243194394564}
-    m_Position: {x: 312, y: 120, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7451902924358909074}
-    m_Position: {x: 312, y: 48, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3292998320563434531}
-    m_Position: {x: 312, y: -24, z: 0}
-  m_ChildStateMachines: []
-  m_AnyStateTransitions: []
-  m_EntryTransitions: []
-  m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 48, y: 72, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 600, y: 48, z: 0}
-  m_ParentStateMachinePosition: {x: 24, y: 0, z: 0}
-  m_DefaultState: {fileID: 1305470243194394564}
 --- !u!1101 &-3802657482063086565
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1766,35 +1321,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &-3292998320563434531
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: C
-  m_Speed: 0.8
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -42645780068921874}
-  m_StateMachineBehaviours:
-  - {fileID: -7252383984308060381}
-  - {fileID: -4956250241690895161}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400044, guid: 71a860de405aaeb44ace152c21808003, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &-3231132091885461888
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1817,48 +1343,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-3169032264059638095
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
---- !u!114 &-3156403434256444086
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.75
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
 --- !u!1109 &-3050827576480909770
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1913,31 +1397,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1101 &-2857264119028412177
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: StrongAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -3292998320563434531}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.16433027
-  m_TransitionOffset: 0
-  m_ExitTime: 0.68421054
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1109 &-2745929345189604033
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2112,9 +1571,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1930876712365213640}
-  m_StateMachineBehaviours:
-  - {fileID: -8644655327554512661}
-  - {fileID: 6099362848816082169}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2157,61 +1614,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-2262911787411026333
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.35
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 1
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerLeg
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
---- !u!1102 &-2228739057244307896
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: C
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 8375684584967947457}
-  m_StateMachineBehaviours:
-  - {fileID: -382424433580302860}
-  - {fileID: 2629023195510578621}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 1
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400004, guid: 5604d4bdf493f404dbe3ac4918a389e5, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1109 &-2227213168172213276
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2229,54 +1631,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!1101 &-2220033507362004428
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.2
-  m_TransitionOffset: 0.0076271356
-  m_ExitTime: 0.9057982
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!114 &-2116931479050537848
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.75
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
 --- !u!114 &-2016610923168874138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2294,25 +1648,6 @@ MonoBehaviour:
   - IgnoreIK
   - LockRotation
   - LockMovement
---- !u!114 &-1905071970658268117
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1101 &-1826897267279486281
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2407,32 +1742,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-1646702026244485434
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.35
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
 --- !u!206 &-1640184902307620542
 BlendTree:
   m_ObjectHideFlags: 1
@@ -2448,25 +1757,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!114 &-1599565798749486455
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1109 &-1454016829774893642
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2503,32 +1793,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-1412456869754085463
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.4
-  endDamage: 0.7
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1101 &-1382801238703983778
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2672,31 +1936,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &-1188294444949327470
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: StrongAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 8538801491780991600}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.1
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1109 &-1044391687581723451
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2762,9 +2001,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1382801238703983778}
-  m_StateMachineBehaviours:
-  - {fileID: -9220113407511618666}
-  - {fileID: -1599565798749486455}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -2774,36 +2011,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400002, guid: bd68d75f916fcab4797c60bb57d4c952, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-870414904287808136
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: B
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 7655260354168672880}
-  - {fileID: -2220033507362004428}
-  m_StateMachineBehaviours:
-  - {fileID: 2964402836086537482}
-  - {fileID: -5088742540136579239}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 1
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400002, guid: 5604d4bdf493f404dbe3ac4918a389e5, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2907,32 +2114,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 1
---- !u!114 &-382424433580302860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.75
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
 --- !u!1101 &-375271659736842422
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2998,9 +2179,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3290506917527068029}
-  m_StateMachineBehaviours:
-  - {fileID: -2262911787411026333}
-  - {fileID: 943451367455219962}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3096,28 +2275,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 245136d0d8b7c3749aadee9aff5703a3, type: 3}
   - {fileID: 8300000, guid: 885921b1f22b03c4ea2a72710092bb51, type: 3}
   triggerTime: 0
---- !u!1101 &-42645780068921874
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.08925235
-  m_TransitionOffset: 0.0037384063
-  m_ExitTime: 0.92398745
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1102 &-1772657762437850
 AnimatorState:
   serializedVersion: 6
@@ -3130,9 +2287,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5430488565903436904}
-  m_StateMachineBehaviours:
-  - {fileID: 7856669152791657583}
-  - {fileID: 1679532136760344070}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -18895,9 +18050,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7284386996695118205}
-  m_StateMachineBehaviours:
-  - {fileID: -2116931479050537848}
-  - {fileID: 843553976576777492}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -21769,9 +20922,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5157176542050865461}
-  m_StateMachineBehaviours:
-  - {fileID: 4905658631136339090}
-  - {fileID: -5231342358733469761}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -21798,9 +20949,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2302638799836747428}
-  m_StateMachineBehaviours:
-  - {fileID: 3338636399808246944}
-  - {fileID: 5779457308272515742}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -21989,25 +21138,6 @@ MonoBehaviour:
   stateInfos: []
   tags:
   - CustomAction
---- !u!114 &843553976576777492
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1109 &855257563395184245
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -22054,48 +21184,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!114 &943451367455219962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
---- !u!114 &966672429249620441
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.1
-  endDamage: 0.55
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - LeftLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1101 &987292704849971389
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -35488,80 +34576,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &1277708227074036104
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: StrongAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -870414904287808136}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.15
-  m_TransitionOffset: 0
-  m_ExitTime: 0.73
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!1102 &1305470243194394564
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: A
-  m_Speed: 0.9
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -8867952904414247999}
-  - {fileID: -6262897059369572493}
-  m_StateMachineBehaviours:
-  - {fileID: -1412456869754085463}
-  - {fileID: -3169032264059638095}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400040, guid: 71a860de405aaeb44ace152c21808003, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!114 &1371471536220868427
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1107 &1496077058425300390
 AnimatorStateMachine:
   serializedVersion: 6
@@ -35627,22 +34641,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &1679532136760344070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
 --- !u!1109 &1824854135587089402
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -35770,9 +34768,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1826897267279486281}
-  m_StateMachineBehaviours:
-  - {fileID: -6102081459397997679}
-  - {fileID: 1371471536220868427}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -35831,25 +34827,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &2629023195510578621
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1109 &2664586608473041968
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -35944,32 +34921,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!114 &2964402836086537482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.1
-  endDamage: 0.55
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1101 &3049220369218417070
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -36113,48 +35064,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!114 &3318771378194121377
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
---- !u!114 &3338636399808246944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.55
-  endDamage: 0.8
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1109 &3658884346919097715
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -36184,9 +35093,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6299027013629245092}
-  m_StateMachineBehaviours:
-  - {fileID: -7847981689562064358}
-  - {fileID: -7227683364208493707}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -36319,9 +35226,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3231132091885461888}
-  m_StateMachineBehaviours:
-  - {fileID: -1646702026244485434}
-  - {fileID: -6738519657690025492}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -36336,25 +35241,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &4207843615775906054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  triggerTime: 0
 --- !u!1101 &4364014096725018920
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -36392,9 +35278,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3898473322129484399}
-  m_StateMachineBehaviours:
-  - {fileID: 5879472543746034706}
-  - {fileID: 7990140468596845407}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -36421,9 +35305,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4184104904194438249}
-  m_StateMachineBehaviours:
-  - {fileID: 8088716558363958379}
-  - {fileID: -5640094845934703060}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -36438,32 +35320,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &4482435614606233292
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - LeftLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1101 &4602781940129309487
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -36516,32 +35372,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &4905658631136339090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.7
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - LeftLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1102 &5070699661854646476
 AnimatorState:
   serializedVersion: 6
@@ -36602,34 +35432,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1107 &5185410516355555161
-AnimatorStateMachine:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack
-  m_ChildStates:
-  - serializedVersion: 1
-    m_State: {fileID: 7424776711953884685}
-    m_Position: {x: 240, y: 120, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -870414904287808136}
-    m_Position: {x: 240, y: 48, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -2228739057244307896}
-    m_Position: {x: 240, y: -24, z: 0}
-  m_ChildStateMachines: []
-  m_AnyStateTransitions: []
-  m_EntryTransitions: []
-  m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 48, y: 60, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 528, y: 60, z: 0}
-  m_ParentStateMachinePosition: {x: 24, y: -12, z: 0}
-  m_DefaultState: {fileID: 7424776711953884685}
 --- !u!1107 &5240763872995683166
 AnimatorStateMachine:
   serializedVersion: 6
@@ -36752,7 +35554,6 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4933467905508636413}
-  - {fileID: -1188294444949327470}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -36825,25 +35626,6 @@ MonoBehaviour:
   tags:
   - Headtrack
   - Upperbody Pose
---- !u!114 &5779457308272515742
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
 --- !u!1109 &5786007640392580668
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -36893,32 +35675,6 @@ MonoBehaviour:
   stateInfos: []
   tags:
   - LockRotation
---- !u!114 &5879472543746034706
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.7
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!1109 &5898186963565587533
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -36961,56 +35717,6 @@ AnimatorTransition:
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 1
-  serializedVersion: 1
---- !u!1109 &6071979034690101098
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: AttackID
-    m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 5185410516355555161}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
---- !u!114 &6099362848816082169
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  triggerTime: 0
---- !u!1109 &6122307444368103965
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: AttackID
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1305470243194394564}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
   serializedVersion: 1
 --- !u!1101 &6299027013629245092
 AnimatorStateTransition:
@@ -37090,9 +35796,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3929356524887215024}
-  m_StateMachineBehaviours:
-  - {fileID: -6737018730132959770}
-  - {fileID: -4266020990715855041}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -37318,32 +36022,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &7310053048575630596
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.8
-  damageMultiplier: 0
-  recoilID: 1
-  reactionID: 0
-  meleeAttackType: 1
-  damageType: 
-  bodyParts:
-  - RightLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
 --- !u!114 &7421747365917520135
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -37359,36 +36037,6 @@ MonoBehaviour:
   stateInfos: []
   tags:
   - CustomAction
---- !u!1102 &7424776711953884685
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: A
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 1277708227074036104}
-  - {fileID: -8100919404933513450}
-  m_StateMachineBehaviours:
-  - {fileID: 7310053048575630596}
-  - {fileID: -4859409740388902698}
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 1
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5604d4bdf493f404dbe3ac4918a389e5, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &7536363060433276823
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -37428,31 +36076,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 1
---- !u!1101 &7655260354168672880
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: StrongAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -2228739057244307896}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.11020672
-  m_TransitionOffset: 0.01405192
-  m_ExitTime: 0.85
-  m_HasExitTime: 1
-  m_HasFixedDuration: 0
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!114 &7659949789528734227
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -37496,32 +36119,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &7856669152791657583
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.35
-  endDamage: 0.6
-  damageMultiplier: 0
-  recoilID: 2
-  reactionID: 1
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - RightLowerLeg
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 1
-  debug: 0
 --- !u!1109 &7899624475736636063
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -37539,25 +36136,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!114 &7990140468596845407
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6dcf6552bd02645a9ceb894d7a6cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 106114, guid: dfea19d1d34dd174d87195f78cb44ae7, type: 3}
-  sounds:
-  - {fileID: 8300000, guid: 60fdfa301881bae48ae59759cc83b842, type: 3}
-  - {fileID: 8300000, guid: f82a7d93926f978479349ce3a9e025f6, type: 3}
-  - {fileID: 8300000, guid: cf35a39ed3f005d49bf846fdd9eee7a0, type: 3}
-  - {fileID: 8300000, guid: 08b5a5b778d6952438c6b3bedaa1e6af, type: 3}
-  triggerTime: 0
 --- !u!1102 &7992155948963040729
 AnimatorState:
   serializedVersion: 6
@@ -37608,76 +36186,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &8053768698831191922
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.07292843
-  m_TransitionOffset: 0.003052951
-  m_ExitTime: 0.86166376
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!114 &8088716558363958379
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9058122f6ec699438581f28f117350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDamage: 0.25
-  endDamage: 0.7
-  damageMultiplier: 0
-  recoilID: 0
-  reactionID: 0
-  meleeAttackType: 0
-  damageType: 
-  bodyParts:
-  - LeftLowerArm
-  ignoreDefense: 0
-  activeRagdoll: 0
-  senselessTime: 0
-  resetAttackTrigger: 0
-  debug: 0
---- !u!1101 &8375684584967947457
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 1
-  serializedVersion: 3
-  m_TransitionDuration: 0.2
-  m_TransitionOffset: 0
-  m_ExitTime: 0.84361583
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &8451941190042473280
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -37706,42 +36214,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1107 &8538801491780991600
-AnimatorStateMachine:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: StrongAttacks
-  m_ChildStates: []
-  m_ChildStateMachines:
-  - serializedVersion: 1
-    m_StateMachine: {fileID: -3826889390501975887}
-    m_Position: {x: 264, y: -48, z: 0}
-  - serializedVersion: 1
-    m_StateMachine: {fileID: 5185410516355555161}
-    m_Position: {x: 264, y: 0, z: 0}
-  m_AnyStateTransitions: []
-  m_EntryTransitions:
-  - {fileID: 6122307444368103965}
-  - {fileID: 6071979034690101098}
-  m_StateMachineTransitions:
-  - first: {fileID: 5185410516355555161}
-    second:
-    - {fileID: -6932618058065674121}
-  - first: {fileID: -3826889390501975887}
-    second:
-    - {fileID: -8595533731869709148}
-  - first: {fileID: 0}
-    second: []
-  m_StateMachineBehaviours:
-  - {fileID: -8779316312942535743}
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 48, y: -24, z: 0}
-  m_ExitPosition: {x: 516, y: -12, z: 0}
-  m_ParentStateMachinePosition: {x: 312, y: 180, z: 0}
-  m_DefaultState: {fileID: 1305470243194394564}
 --- !u!114 &8612982955413138451
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -37790,9 +36262,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3049220369218417070}
-  m_StateMachineBehaviours:
-  - {fileID: -3156403434256444086}
-  - {fileID: 4207843615775906054}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
