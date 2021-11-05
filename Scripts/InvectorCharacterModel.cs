@@ -111,6 +111,7 @@ namespace MultiplayerARPG
         protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
         protected bool jumpFallen = true;
+        protected float movesetId = 0f;
         protected float upperBodyId = 0f;
         /// <summary>
         /// Animator Hash for RandomAttack parameter 
@@ -153,6 +154,7 @@ namespace MultiplayerARPG
         {
             onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
+            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId, .2f, vTime.deltaTime);
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
             if (aimTimming > 0)
             {
@@ -503,41 +505,60 @@ namespace MultiplayerARPG
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
                 upperBodyId = 0;
+                movesetId = 1;
             }
             else
             {
-                if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
+                if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sword)
                 {
-                    upperBodyId = 1;
+                    upperBodyId = 0;
+                    movesetId = 2;
+                }
+                else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.TwoHandSword)
+                {
+                    upperBodyId = 0;
+                    movesetId = 2;
+                }
+                else if(GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
+                {
+                    upperBodyId = 0;
+                    movesetId = 2;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
                 {
                     upperBodyId = 2;
+                    movesetId = 1;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
                 {
                     upperBodyId = 3;
+                    movesetId = 1;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
                 {
                     upperBodyId = 2;
+                    movesetId = 1;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
                 {
                     upperBodyId = 4;
+                    movesetId = 1;
                 }
                 else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
                 {
                     upperBodyId = 5;
+                    movesetId = 1;
                 }
                 else
                 {
                     upperBodyId = 0;
+                    movesetId = 1;
                 }
             }
             if (!enabled)
             {
                 animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
+                animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId);
             }
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
             currentAttackClipIndex = 0;
@@ -547,6 +568,7 @@ namespace MultiplayerARPG
         private void OnDisable()
         {
             animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
+            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId);
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
         }
 
