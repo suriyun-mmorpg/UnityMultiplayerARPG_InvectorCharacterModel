@@ -153,6 +153,7 @@ namespace MultiplayerARPG
         {
             onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
+            animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
             if (aimTimming > 0)
             {
                 aimTimming -= Time.deltaTime;
