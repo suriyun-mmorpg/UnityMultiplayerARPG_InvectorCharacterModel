@@ -1,5 +1,8 @@
 using Invector;
+using Invector.IK;
 using Invector.vCharacterController;
+using Invector.vEventSystems;
+using Invector.vShooter;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +41,18 @@ namespace MultiplayerARPG
         public float freeRotationSpeed = 20f;
         [Tooltip("Control the speed of the Animator Layer OnlyArms Weight")]
         public float onlyArmsSpeed = 25f;
+        [Tooltip("smooth of the right hand when correcting the aim")]
+        public float smoothArmIKRotation = 30f;
+        [Tooltip("smooth of the right arm when correcting the aim")]
+        public float smoothArmAlignWeight = 4f;
+        [Tooltip("Limit the maxAngle for the right hand to correct the aim")]
+        public float maxAimAngle = 60f;
+        [Tooltip("Check this to syinc the weapon aim to the camera aim")]
+        public bool raycastAimTarget = true;
+        [Tooltip("Check this to use IK on the left hand")]
+        public bool useLeftIK = true;
+        [Tooltip("Check this to use IK on the right hand")]
+        public bool useRightIK = true;
         [Tooltip("Time to keep aiming after shot")]
         public float hipfireAimTime = 2f;
         [Tooltip("While in Free Locomotion the character will lean to left/right when steering")]
@@ -49,6 +64,7 @@ namespace MultiplayerARPG
         public bool useTurnOnSpotAnim = true;
         [Tooltip("If this is true it will play attack animation clips by order, no random")]
         public bool playAttackClipByOrder = true;
+        public vAnimatorStateInfos animatorStateInfos;
 
         [Header("Animation Clip Length")]
         public ClipLengthData[] unarmedAttackClipLengths = new ClipLengthData[]
@@ -105,14 +121,59 @@ namespace MultiplayerARPG
         public ClipLengthData rpgReloadClipLength = new ClipLengthData(1f);
         public ClipLengthData bowReloadClipLength = new ClipLengthData(1f);
 
+        public bool isReloading
+        {
+            get
+            {
+                return IsAnimatorTag("IsReloading");
+            }
+        }
+        public bool isAimming
+        {
+            get
+            {
+                return aimTimming > 0f;
+            }
+        }
+        public bool isAttacking
+        {
+            get
+            {
+                return IsAnimatorTag("Attack");
+            }
+        }
+        public bool isEquipping
+        {
+            get
+            {
+                return IsAnimatorTag("IsEquipping");
+            }
+        }
         protected float onlyArmsLayerWeight = 0f;
+        protected float supportIKWeight, weaponIKWeight;
         protected float aimTimming = 0f;
+        protected bool ignoreIK = false;
         protected int onlyArmsLayer;
         protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
         protected bool jumpFallen = true;
         protected float movesetId = 0f;
         protected float upperBodyId = 0f;
+        protected Vector3 ikRotationOffset;
+        protected Vector3 ikPositionOffset;
+        protected bool isStrafing = false;
+        protected bool isSprinting = false;
+        // NOTE: Actually has no `isSliding` usage
+        protected bool isSliding = false;
+        // NOTE: Actually has no `isRolling` usage
+        protected bool isRolling = false;
+        protected bool isCrouching = false;
+        protected bool isCrawling = false;
+        protected bool isGrounded = false;
+        protected float verticalVelocity = 0f;
+        protected float horizontalSpeed = 0f;
+        protected float verticalSpeed = 0f;
+        protected float inputMagnitude = 0f;
         /// <summary>
         /// Animator Hash for RandomAttack parameter 
         /// </summary>
@@ -142,15 +203,74 @@ namespace MultiplayerARPG
         /// </summary>
         protected Vector3 lastCharacterAngle;
 
+        internal AnimatorStateInfo baseLayerInfo, underBodyInfo, rightArmInfo, leftArmInfo, fullBodyInfo, upperBodyInfo;
+
+        public int baseLayer { get { return animator.GetLayerIndex("Base Layer"); } }
+        public int underBodyLayer { get { return animator.GetLayerIndex("UnderBody"); } }
+        public int rightArmLayer { get { return animator.GetLayerIndex("RightArm"); } }
+        public int leftArmLayer { get { return animator.GetLayerIndex("LeftArm"); } }
+        public int upperBodyLayer { get { return animator.GetLayerIndex("UpperBody"); } }
+        public int fullbodyLayer { get { return animator.GetLayerIndex("FullBody"); } }
+        public vIKSolver LeftIK { get; set; }
+        public vIKSolver RightIK { get; set; }
+        private bool _ignoreIKFromAnimator;
+        private bool IsIgnoreIK
+        {
+            get
+            {
+                return ignoreIK || _ignoreIKFromAnimator;
+            }
+        }
+
         protected override void Awake()
         {
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
             onlyArmsLayer = animator.GetLayerIndex("OnlyArms");
+            baseLayerInfo = animator.GetCurrentAnimatorStateInfo(baseLayer);
+            underBodyInfo = animator.GetCurrentAnimatorStateInfo(underBodyLayer);
+            rightArmInfo = animator.GetCurrentAnimatorStateInfo(rightArmLayer);
+            leftArmInfo = animator.GetCurrentAnimatorStateInfo(leftArmLayer);
+            upperBodyInfo = animator.GetCurrentAnimatorStateInfo(upperBodyLayer);
+            fullBodyInfo = animator.GetCurrentAnimatorStateInfo(fullbodyLayer);
             base.Awake();
         }
 
-        private void Update()
+        protected virtual void OnEnable()
+        {
+            if (animatorStateInfos != null)
+                animatorStateInfos.RegisterListener();
+        }
+
+        protected virtual void OnDisable()
+        {
+            if (animatorStateInfos != null)
+                animatorStateInfos.RemoveListener();
+            animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
+            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId);
+            animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
+        }
+
+        public virtual bool IsAnimatorTag(string tag)
+        {
+            if (animator == null) return false;
+            if (animatorStateInfos != null)
+            {
+                if (animatorStateInfos.HasTag(tag))
+                {
+                    return true;
+                }
+            }
+            if (baseLayerInfo.IsTag(tag)) return true;
+            if (underBodyInfo.IsTag(tag)) return true;
+            if (rightArmInfo.IsTag(tag)) return true;
+            if (leftArmInfo.IsTag(tag)) return true;
+            if (upperBodyInfo.IsTag(tag)) return true;
+            if (fullBodyInfo.IsTag(tag)) return true;
+            return false;
+        }
+
+        protected void Update()
         {
             onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
@@ -162,6 +282,13 @@ namespace MultiplayerARPG
                 if (aimTimming <= 0f)
                     animator.SetBool(vAnimatorParameters.IsAiming, false);
             }
+            // Check if Animator state need to ignore IK
+            _ignoreIKFromAnimator = IsAnimatorTag("IgnoreIK");
+        }
+
+        protected void LateUpdate()
+        {
+            UpdateArmsIK();
         }
 
         public ClipLengthData[] GetAttackClipLengths(int dataId)
@@ -519,7 +646,7 @@ namespace MultiplayerARPG
                     upperBodyId = 0;
                     movesetId = 2;
                 }
-                else if(GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
+                else if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
                 {
                     upperBodyId = 0;
                     movesetId = 2;
@@ -570,13 +697,6 @@ namespace MultiplayerARPG
             base.SetEquipWeapons(equipWeapons);
         }
 
-        private void OnDisable()
-        {
-            animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
-            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId);
-            animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
-        }
-
         public override void PlayMoveAnimation()
         {
             if (dirtyIsDead != isDead)
@@ -590,22 +710,22 @@ namespace MultiplayerARPG
                 return;
 
             float deltaTime = Time.deltaTime;
-            bool isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
-            bool isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
+            isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
+            isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
             bool isSliding = false;
             // NOTE: Actually has no `isRolling` usage
             bool isRolling = false;
-            bool isCrouching = extraMovementState == ExtraMovementState.IsCrouching;
-            bool isCrawling = extraMovementState == ExtraMovementState.IsCrawling;
-            bool isGrounded = movementState.Has(MovementState.IsGrounded);
+            isCrouching = extraMovementState == ExtraMovementState.IsCrouching;
+            isCrawling = extraMovementState == ExtraMovementState.IsCrawling;
+            isGrounded = movementState.Has(MovementState.IsGrounded);
             // NOTE: Cannot find ground distance and ground angle from direction yet
             float groundDistance = 0f;
             float groundAngleFromDirection = 0f;
-            float verticalVelocity = 0f;
-            float horizontalSpeed = 0f;
-            float verticalSpeed = 0f;
-            float inputMagnitude = 0f;
+            verticalVelocity = 0f;
+            horizontalSpeed = 0f;
+            verticalSpeed = 0f;
+            inputMagnitude = 0f;
             float stopMoveWeight = 0f;
 
             var eulerDifference = transform.eulerAngles - lastCharacterAngle;
@@ -709,6 +829,64 @@ namespace MultiplayerARPG
             animator.SetFloat(vAnimatorParameters.InputVertical, 0);
             animator.SetFloat(vAnimatorParameters.InputMagnitude, 0);
             animator.SetFloat(vAnimatorParameters.RotationMagnitude, 0);
+        }
+
+        public void UpdateArmsIK(bool isUsingLeftHand = false)
+        {
+            // create left arm ik solver if equal null
+            if (LeftIK == null || !LeftIK.isValidBones) LeftIK = new vIKSolver(animator, AvatarIKGoal.LeftHand);
+            if (RightIK == null || !RightIK.isValidBones) RightIK = new vIKSolver(animator, AvatarIKGoal.RightHand);
+            vIKSolver targetIK = null;
+
+            if (isUsingLeftHand)
+                targetIK = RightIK;
+            else
+                targetIK = LeftIK;
+
+            if ((!rightHandEquipmentEntity || !useLeftIK || IsIgnoreIK || isEquipping) ||
+                (IsAnimatorTag("Shot Fire") && rightHandEquipmentEntity.disableIkOnShot))
+            {
+                if (supportIKWeight > 0)
+                {
+                    supportIKWeight = 0;
+                    targetIK.SetIKWeight(0);
+                }
+                return;
+            }
+
+            bool useIkConditions = false;
+            if (!isAimming && !isAttacking)
+            {
+                if (inputMagnitude < 1f)
+                    useIkConditions = rightHandEquipmentEntity.useIkOnIdle;
+                else if (isStrafing)
+                    useIkConditions = rightHandEquipmentEntity.useIkOnStrafe;
+                else
+                    useIkConditions = rightHandEquipmentEntity.useIkOnFree;
+            }
+            else if (isAimming && !isAttacking) useIkConditions = rightHandEquipmentEntity.useIKOnAiming;
+            else if (isAttacking) useIkConditions = rightHandEquipmentEntity.useIkAttacking;
+
+            if (targetIK != null)
+            {
+                // control weight of ik
+                if (rightHandEquipmentEntity && rightHandEquipmentEntity.handIKTarget && !isReloading && (isGrounded || isAimming) && useIkConditions)
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 1, 10f * vTime.deltaTime);
+                else
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 0, 25f * vTime.deltaTime);
+
+                if (supportIKWeight <= 0) return;
+
+                // update IK
+                targetIK.SetIKWeight(supportIKWeight);
+                if (rightHandEquipmentEntity && rightHandEquipmentEntity.handIKTarget)
+                {
+                    var _offset = (rightHandEquipmentEntity.handIKTarget.forward * ikPositionOffset.z) + (rightHandEquipmentEntity.handIKTarget.right * ikPositionOffset.x) + (rightHandEquipmentEntity.handIKTarget.up * ikPositionOffset.y);
+                    targetIK.SetIKPosition(rightHandEquipmentEntity.handIKTarget.position + _offset);
+                    var _rotation = Quaternion.Euler(ikRotationOffset);
+                    targetIK.SetIKRotation(rightHandEquipmentEntity.handIKTarget.rotation * _rotation);
+                }
+            }
         }
     }
 }
