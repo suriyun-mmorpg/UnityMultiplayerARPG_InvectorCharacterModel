@@ -128,7 +128,7 @@ namespace MultiplayerARPG
                 return IsAnimatorTag("IsReloading");
             }
         }
-        public bool isAimming
+        public bool isAiming
         {
             get
             {
@@ -837,14 +837,20 @@ namespace MultiplayerARPG
             if (LeftIK == null || !LeftIK.isValidBones) LeftIK = new vIKSolver(animator, AvatarIKGoal.LeftHand);
             if (RightIK == null || !RightIK.isValidBones) RightIK = new vIKSolver(animator, AvatarIKGoal.RightHand);
             vIKSolver targetIK = null;
-
+            BaseEquipmentEntity equipmentEntity = null;
             if (isUsingLeftHand)
+            {
                 targetIK = RightIK;
+                equipmentEntity = leftHandEquipmentEntity;
+            }
             else
+            {
                 targetIK = LeftIK;
+                equipmentEntity = rightHandEquipmentEntity;
+            }
 
-            if ((!rightHandEquipmentEntity || !useLeftIK || IsIgnoreIK || isEquipping) ||
-                (IsAnimatorTag("Shot Fire") && rightHandEquipmentEntity.disableIkOnShot))
+            if ((!equipmentEntity || !useLeftIK || IsIgnoreIK || isEquipping) ||
+                (IsAnimatorTag("Shot Fire") && equipmentEntity.disableIkOnShot))
             {
                 if (supportIKWeight > 0)
                 {
@@ -855,22 +861,22 @@ namespace MultiplayerARPG
             }
 
             bool useIkConditions = false;
-            if (!isAimming && !isAttacking)
+            if (!isAiming && !isAttacking)
             {
                 if (inputMagnitude < 1f)
-                    useIkConditions = rightHandEquipmentEntity.useIkOnIdle;
+                    useIkConditions = equipmentEntity.useIkOnIdle;
                 else if (isStrafing)
-                    useIkConditions = rightHandEquipmentEntity.useIkOnStrafe;
+                    useIkConditions = equipmentEntity.useIkOnStrafe;
                 else
-                    useIkConditions = rightHandEquipmentEntity.useIkOnFree;
+                    useIkConditions = equipmentEntity.useIkOnFree;
             }
-            else if (isAimming && !isAttacking) useIkConditions = rightHandEquipmentEntity.useIKOnAiming;
-            else if (isAttacking) useIkConditions = rightHandEquipmentEntity.useIkAttacking;
+            else if (isAiming && !isAttacking) useIkConditions = equipmentEntity.useIKOnAiming;
+            else if (isAttacking) useIkConditions = equipmentEntity.useIkAttacking;
 
             if (targetIK != null)
             {
                 // control weight of ik
-                if (rightHandEquipmentEntity && rightHandEquipmentEntity.handIKTarget && !isReloading && (isGrounded || isAimming) && useIkConditions)
+                if (equipmentEntity && equipmentEntity.handIKTarget && !isReloading && (isGrounded || isAiming) && useIkConditions)
                     supportIKWeight = Mathf.Lerp(supportIKWeight, 1, 10f * vTime.deltaTime);
                 else
                     supportIKWeight = Mathf.Lerp(supportIKWeight, 0, 25f * vTime.deltaTime);
@@ -879,12 +885,12 @@ namespace MultiplayerARPG
 
                 // update IK
                 targetIK.SetIKWeight(supportIKWeight);
-                if (rightHandEquipmentEntity && rightHandEquipmentEntity.handIKTarget)
+                if (equipmentEntity && equipmentEntity.handIKTarget)
                 {
-                    var _offset = (rightHandEquipmentEntity.handIKTarget.forward * ikPositionOffset.z) + (rightHandEquipmentEntity.handIKTarget.right * ikPositionOffset.x) + (rightHandEquipmentEntity.handIKTarget.up * ikPositionOffset.y);
-                    targetIK.SetIKPosition(rightHandEquipmentEntity.handIKTarget.position + _offset);
+                    var _offset = (equipmentEntity.handIKTarget.forward * ikPositionOffset.z) + (equipmentEntity.handIKTarget.right * ikPositionOffset.x) + (equipmentEntity.handIKTarget.up * ikPositionOffset.y);
+                    targetIK.SetIKPosition(equipmentEntity.handIKTarget.position + _offset);
                     var _rotation = Quaternion.Euler(ikRotationOffset);
-                    targetIK.SetIKRotation(rightHandEquipmentEntity.handIKTarget.rotation * _rotation);
+                    targetIK.SetIKRotation(equipmentEntity.handIKTarget.rotation * _rotation);
                 }
             }
         }
