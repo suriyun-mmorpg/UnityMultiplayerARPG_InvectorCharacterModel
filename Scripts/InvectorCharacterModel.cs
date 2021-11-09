@@ -129,6 +129,13 @@ namespace MultiplayerARPG
                 return IsAnimatorTag("IsReloading") || characterEntity.IsPlayingReloadAnimation();
             }
         }
+        public bool isShooting
+        {
+            get
+            {
+                return shootTimming > 0f;
+            }
+        }
         public bool isAiming
         {
             get
@@ -152,6 +159,7 @@ namespace MultiplayerARPG
         }
         protected float onlyArmsLayerWeight = 0f;
         protected float supportIKWeight, weaponIKWeight;
+        protected float shootTimming = 0f;
         protected float aimTimming = 0f;
         protected bool ignoreIK = false;
         protected int onlyArmsLayer;
@@ -205,6 +213,15 @@ namespace MultiplayerARPG
         protected Vector3 lastCharacterAngle;
 
         internal AnimatorStateInfo baseLayerInfo, underBodyInfo, rightArmInfo, leftArmInfo, fullBodyInfo, upperBodyInfo;
+        internal Transform leftHand, rightHand, rightLowerArm, leftLowerArm, rightUpperArm, leftUpperArm;
+
+        protected float armAlignmentWeight;
+        protected float aimWeight;
+
+        protected Quaternion handRotation, upperArmRotation;
+        internal GameObject aimAngleReference;
+
+        private Quaternion upperArmRotationAlignment, handRotationAlignment;
 
         public int baseLayer { get { return animator.GetLayerIndex("Base Layer"); } }
         public int underBodyLayer { get { return animator.GetLayerIndex("UnderBody"); } }
@@ -228,12 +245,18 @@ namespace MultiplayerARPG
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
             onlyArmsLayer = animator.GetLayerIndex("OnlyArms");
-            baseLayerInfo = animator.GetCurrentAnimatorStateInfo(baseLayer);
-            underBodyInfo = animator.GetCurrentAnimatorStateInfo(underBodyLayer);
-            rightArmInfo = animator.GetCurrentAnimatorStateInfo(rightArmLayer);
-            leftArmInfo = animator.GetCurrentAnimatorStateInfo(leftArmLayer);
-            upperBodyInfo = animator.GetCurrentAnimatorStateInfo(upperBodyLayer);
-            fullBodyInfo = animator.GetCurrentAnimatorStateInfo(fullbodyLayer);
+
+            leftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+            rightHand = animator.GetBoneTransform(HumanBodyBones.RightHand);
+            leftLowerArm = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+            rightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+            leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+            rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+
+            aimAngleReference = new GameObject("aimAngleReference");
+            aimAngleReference.transform.rotation = transform.rotation;
+            aimAngleReference.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Head));
+            aimAngleReference.transform.localPosition = Vector3.zero;
             base.Awake();
         }
 
@@ -273,13 +296,25 @@ namespace MultiplayerARPG
 
         protected void Update()
         {
-            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * Time.deltaTime);
+            baseLayerInfo = animator.GetCurrentAnimatorStateInfo(baseLayer);
+            underBodyInfo = animator.GetCurrentAnimatorStateInfo(underBodyLayer);
+            rightArmInfo = animator.GetCurrentAnimatorStateInfo(rightArmLayer);
+            leftArmInfo = animator.GetCurrentAnimatorStateInfo(leftArmLayer);
+            upperBodyInfo = animator.GetCurrentAnimatorStateInfo(upperBodyLayer);
+            fullBodyInfo = animator.GetCurrentAnimatorStateInfo(fullbodyLayer);
+
+            float deltaTime = Time.deltaTime;
+            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, upperBodyId > 0f ? 1f : 0f, onlyArmsSpeed * deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
-            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId, .2f, vTime.deltaTime);
+            animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId, .2f, deltaTime);
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
+            if (shootTimming > 0)
+            {
+                shootTimming -= deltaTime;
+            }
             if (aimTimming > 0)
             {
-                aimTimming -= Time.deltaTime;
+                aimTimming -= deltaTime;
                 if (aimTimming <= 0f)
                     animator.SetBool(vAnimatorParameters.IsAiming, false);
             }
@@ -289,6 +324,8 @@ namespace MultiplayerARPG
 
         protected void LateUpdate()
         {
+            RotateAimArm();
+            RotateAimHand();
             UpdateArmsIK();
         }
 
@@ -472,6 +509,7 @@ namespace MultiplayerARPG
 
         public void PlayAttackAnimation(int dataId, int animationIndex)
         {
+            GetAttackAnimation(dataId, animationIndex, out _, out shootTimming);
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
                 animator.ResetTrigger(vAnimatorParameters.WeakAttack);
@@ -878,9 +916,9 @@ namespace MultiplayerARPG
             {
                 // control weight of ik
                 if (equipmentEntity && equipmentEntity.handIKTarget && !isReloading && (isGrounded || isAiming) && useIkConditions)
-                    supportIKWeight = Mathf.Lerp(supportIKWeight, 1, 10f * vTime.deltaTime);
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 1, 10f * Time.deltaTime);
                 else
-                    supportIKWeight = Mathf.Lerp(supportIKWeight, 0, 25f * vTime.deltaTime);
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 0, 25f * Time.deltaTime);
 
                 if (supportIKWeight <= 0) return;
 
@@ -893,6 +931,117 @@ namespace MultiplayerARPG
                     var _rotation = Quaternion.Euler(ikRotationOffset);
                     targetIK.SetIKRotation(equipmentEntity.handIKTarget.rotation * _rotation);
                 }
+            }
+        }
+
+        protected virtual bool CanRotateAimArm()
+        {
+            return /*IsAnimatorTag("Upperbody Pose") && */IsAimAlignWithForward();
+        }
+
+
+        protected virtual bool IsAimAlignWithForward()
+        {
+            if (characterEntity.AimPosition.type != AimPositionType.Direction) return false;
+            var dir = targetArmAligmentDirection;
+            dir.Normalize();
+            dir.y = 0;
+            var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - transform.eulerAngles;
+
+            return ((angle.NormalizeAngle().y < 15 && angle.NormalizeAngle().y > -15));
+        }
+
+        protected virtual Vector3 targetArmAlignmentPosition
+        {
+            get
+            {
+                return characterEntity.AimPosition.position + ((Vector3)characterEntity.AimPosition.direction * 10f);
+            }
+        }
+
+        protected virtual Vector3 targetArmAligmentDirection
+        {
+            get
+            {
+                return characterEntity.AimPosition.direction;
+            }
+        }
+
+        protected virtual void RotateAimArm(bool isUsingLeftHand = false)
+        {
+            BaseEquipmentEntity equipmentEntity = null;
+            if (isUsingLeftHand)
+            {
+                equipmentEntity = leftHandEquipmentEntity;
+            }
+            else
+            {
+                equipmentEntity = rightHandEquipmentEntity;
+            }
+
+            armAlignmentWeight = isAiming && /*aimConditions &&*/ CanRotateAimArm() ? Mathf.Lerp(armAlignmentWeight, Mathf.Clamp(upperBodyInfo.normalizedTime, 0, 1f), smoothArmAlignWeight * Time.deltaTime) : 0;
+            if (equipmentEntity && armAlignmentWeight > 0.01f && equipmentEntity.alignRightUpperArmToAim)
+            {
+                var aimPoint = targetArmAlignmentPosition;
+                Vector3 v = aimPoint - equipmentEntity.missileDamageTransform.position;
+                var orientation = equipmentEntity.missileDamageTransform.forward;
+
+                var upperArm = isUsingLeftHand ? leftUpperArm : rightUpperArm;
+                var rot = Quaternion.FromToRotation(upperArm.InverseTransformDirection(orientation), upperArm.InverseTransformDirection(v));
+
+                if ((!float.IsNaN(rot.x) && !float.IsNaN(rot.y) && !float.IsNaN(rot.z)))
+                    upperArmRotationAlignment = isShooting ? upperArmRotation : rot;
+
+                var angle = Vector3.Angle(aimPoint - aimAngleReference.transform.position, aimAngleReference.transform.forward);
+                upperArmRotation = Quaternion.Lerp(upperArmRotation, upperArmRotationAlignment, smoothArmIKRotation * (.001f + Time.deltaTime));
+
+                if (!float.IsNaN(upperArmRotation.x) && !float.IsNaN(upperArmRotation.y) && !float.IsNaN(upperArmRotation.z))
+                {
+                    var armWeight = equipmentEntity.alignRightHandToAim ? Mathf.Clamp(armAlignmentWeight, 0, 0.5f) : armAlignmentWeight;
+                    upperArm.localRotation *= Quaternion.Euler(upperArmRotation.eulerAngles.NormalizeAngle() * armWeight);
+                }
+            }
+            else
+            {
+                upperArmRotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
+        protected virtual void RotateAimHand(bool isUsingLeftHand = false)
+        {
+            BaseEquipmentEntity equipmentEntity = null;
+            if (isUsingLeftHand)
+            {
+                equipmentEntity = leftHandEquipmentEntity;
+            }
+            else
+            {
+                equipmentEntity = rightHandEquipmentEntity;
+            }
+            if (equipmentEntity && armAlignmentWeight > 0.01f && /*aimConditions &&*/ equipmentEntity.alignRightHandToAim)
+            {
+                var aimPoint = targetArmAlignmentPosition;
+                Vector3 v = aimPoint - equipmentEntity.missileDamageTransform.position;
+                var orientation = equipmentEntity.missileDamageTransform.forward;
+
+                var hand = isUsingLeftHand ? leftHand : rightHand;
+                var rot = Quaternion.FromToRotation(hand.InverseTransformDirection(orientation), hand.InverseTransformDirection(v));
+
+                if ((!float.IsNaN(rot.x) && !float.IsNaN(rot.y) && !float.IsNaN(rot.z)))
+                    handRotationAlignment = isShooting ? handRotation : rot;
+
+                var angle = Vector3.Angle(aimPoint - aimAngleReference.transform.position, aimAngleReference.transform.forward);
+                handRotation = Quaternion.Lerp(handRotation, handRotationAlignment, smoothArmIKRotation * (.001f + Time.deltaTime));
+
+                if (!float.IsNaN(handRotation.x) && !float.IsNaN(handRotation.y) && !float.IsNaN(handRotation.z))
+                {
+                    var armWeight = armAlignmentWeight;
+                    hand.localRotation *= Quaternion.Euler(handRotation.eulerAngles.NormalizeAngle() * armWeight);
+                }
+            }
+            else
+            {
+                handRotation = Quaternion.Euler(0, 0, 0);
             }
         }
     }
