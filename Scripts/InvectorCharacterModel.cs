@@ -31,6 +31,7 @@ namespace MultiplayerARPG
 
         // NOTE: Get animator parameters from `vAnimatorParameters`
         public Animator animator;
+        public BaseCharacterEntity characterEntity;
         [Range(0f, 1f)]
         public float strafeAnimationSmooth = 0.2f;
         [Range(0f, 1f)]
@@ -125,7 +126,7 @@ namespace MultiplayerARPG
         {
             get
             {
-                return IsAnimatorTag("IsReloading");
+                return IsAnimatorTag("IsReloading") || characterEntity.IsPlayingReloadAnimation();
             }
         }
         public bool isAiming
@@ -139,7 +140,7 @@ namespace MultiplayerARPG
         {
             get
             {
-                return IsAnimatorTag("Attack");
+                return IsAnimatorTag("Attack") || characterEntity.IsPlayingAttackOrUseSkillAnimation();
             }
         }
         public bool isEquipping
