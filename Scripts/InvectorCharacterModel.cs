@@ -436,8 +436,6 @@ namespace MultiplayerARPG
             ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
             if (playAttackClipByOrder)
             {
-                if (currentAttackClipIndex >= tempClipLengths.Length)
-                    currentAttackClipIndex = 0;
                 animationIndex = currentAttackClipIndex;
             }
             else
@@ -603,6 +601,9 @@ namespace MultiplayerARPG
                 }
             }
             currentAttackClipIndex++;
+            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
+            if (currentAttackClipIndex >= tempClipLengths.Length)
+                currentAttackClipIndex = 0;
         }
 
         public void PlayReloadAnimation(int dataId)
