@@ -678,7 +678,7 @@ namespace MultiplayerARPG
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
                 upperBodyId = 0;
-                movesetId = 1;
+                movesetId = 0;
             }
             else
             {
@@ -730,7 +730,7 @@ namespace MultiplayerARPG
                 else
                 {
                     upperBodyId = 0;
-                    movesetId = 1;
+                    movesetId = 0;
                 }
             }
             if (!enabled)
