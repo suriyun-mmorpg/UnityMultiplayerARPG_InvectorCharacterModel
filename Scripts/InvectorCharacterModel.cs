@@ -167,6 +167,7 @@ namespace MultiplayerARPG
         protected int currentAttackClipIndex = 0;
         protected bool dirtyIsDead = true;
         protected bool jumpFallen = true;
+        protected bool isJumping = false;
         protected float movesetId = 0f;
         protected float upperBodyId = 0f;
         protected Vector3 ikRotationOffset;
@@ -743,6 +744,11 @@ namespace MultiplayerARPG
             base.SetEquipWeapons(equipWeapons);
         }
 
+        public override void PlayJumpAnimation()
+        {
+            isJumping = true;
+        }
+
         public override void PlayMoveAnimation()
         {
             if (dirtyIsDead != isDead)
@@ -753,7 +759,10 @@ namespace MultiplayerARPG
             }
 
             if (isDead)
+            {
+                isJumping = false;
                 return;
+            }
 
             float deltaTime = Time.deltaTime;
             isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
@@ -800,8 +809,9 @@ namespace MultiplayerARPG
                 inputMagnitude = 1f;
             }
 
-            if (jumpFallen && movementState.Has(MovementState.IsJump))
+            if (jumpFallen && isJumping)
             {
+                isJumping = false;
                 jumpFallen = false;
                 if (inputMagnitude < 0.1f)
                 {
