@@ -893,16 +893,16 @@ namespace MultiplayerARPG
             if (LeftIK == null || !LeftIK.isValidBones) LeftIK = new vIKSolver(animator, AvatarIKGoal.LeftHand);
             if (RightIK == null || !RightIK.isValidBones) RightIK = new vIKSolver(animator, AvatarIKGoal.RightHand);
             vIKSolver targetIK = null;
-            BaseEquipmentEntity equipmentEntity = null;
+            BaseEquipmentEntity equipmentEntity;
             if (isUsingLeftHand)
             {
                 targetIK = RightIK;
-                equipmentEntity = leftHandEquipmentEntity;
+                equipmentEntity = CacheLeftHandEquipmentEntity;
             }
             else
             {
                 targetIK = LeftIK;
-                equipmentEntity = rightHandEquipmentEntity;
+                equipmentEntity = CacheRightHandEquipmentEntity;
             }
 
             if ((!equipmentEntity || !useLeftIK || IsIgnoreIK || isEquipping) ||
@@ -986,14 +986,14 @@ namespace MultiplayerARPG
 
         protected virtual void RotateAimArm(bool isUsingLeftHand = false)
         {
-            BaseEquipmentEntity equipmentEntity = null;
+            BaseEquipmentEntity equipmentEntity;
             if (isUsingLeftHand)
             {
-                equipmentEntity = leftHandEquipmentEntity;
+                equipmentEntity = CacheLeftHandEquipmentEntity;
             }
             else
             {
-                equipmentEntity = rightHandEquipmentEntity;
+                equipmentEntity = CacheRightHandEquipmentEntity;
             }
 
             armAlignmentWeight = isAiming && /*aimConditions &&*/ CanRotateAimArm() ? Mathf.Lerp(armAlignmentWeight, Mathf.Clamp(upperBodyInfo.normalizedTime, 0, 1f), smoothArmAlignWeight * Time.deltaTime) : 0;
@@ -1026,14 +1026,14 @@ namespace MultiplayerARPG
 
         protected virtual void RotateAimHand(bool isUsingLeftHand = false)
         {
-            BaseEquipmentEntity equipmentEntity = null;
+            BaseEquipmentEntity equipmentEntity;
             if (isUsingLeftHand)
             {
-                equipmentEntity = leftHandEquipmentEntity;
+                equipmentEntity = CacheLeftHandEquipmentEntity;
             }
             else
             {
-                equipmentEntity = rightHandEquipmentEntity;
+                equipmentEntity = CacheRightHandEquipmentEntity;
             }
             if (equipmentEntity && armAlignmentWeight > 0.01f && /*aimConditions &&*/ equipmentEntity.alignRightHandToAim)
             {
