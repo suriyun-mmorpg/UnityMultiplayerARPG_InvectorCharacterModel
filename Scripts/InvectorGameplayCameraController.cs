@@ -1,3 +1,4 @@
+using Invector;
 using Invector.vCamera;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,17 +10,11 @@ namespace MultiplayerARPG
     {
         public vThirdPersonCamera invectorCam;
         public string pitchAxisName = "Mouse Y";
-        public float pitchRotateSpeed = 4f;
         public float pitchRotateSpeedScale = 1f;
-        public float pitchBottomClamp = -30f;
-        public float pitchTopClamp = 70f;
         public string yawAxisName = "Mouse X";
         public float yawRotateSpeedScale = 1f;
         public string zoomAxisName = "Mouse ScrollWheel";
         public float zoomSpeedScale = 1f;
-        public float zoomSmoothTime = 0.25f;
-        public float zoomMin = 2f;
-        public float zoomMax = 8f;
 
         public BasePlayerCharacterEntity PlayerCharacterEntity { get; protected set; }
         public Camera Camera { get; protected set; }
@@ -33,30 +28,31 @@ namespace MultiplayerARPG
             set
             {
                 invectorCam.SetMainTarget(value);
+                if (!invectorCam.isInit)
+                    invectorCam.Init();
             }
         }
         public Vector3 TargetOffset
         {
             get
             {
-                return new Vector3(invectorCam.currentState.right, invectorCam.currentState.height, invectorCam.currentState.forward);
+                return new Vector3(invectorCam.CameraStateList.tpCameraStates[0].right, invectorCam.CameraStateList.tpCameraStates[0].height, 0f);
             }
             set
             {
-                invectorCam.currentState.right = value.x;
-                invectorCam.currentState.height = value.y;
-                invectorCam.currentState.forward = value.z;
+                invectorCam.CameraStateList.tpCameraStates[0].right = value.x;
+                invectorCam.CameraStateList.tpCameraStates[0].height = value.y;
             }
         }
         public float CameraFov
         {
             get
             {
-                return invectorCam.currentState.fov;
+                return invectorCam.CameraStateList.tpCameraStates[0].fov;
             }
             set
             {
-                invectorCam.currentState.fov = value;
+                invectorCam.CameraStateList.tpCameraStates[0].fov = value;
             }
         }
         public float CameraNearClipPlane
@@ -85,22 +81,22 @@ namespace MultiplayerARPG
         {
             get
             {
-                return invectorCam.currentState.minDistance;
+                return invectorCam.CameraStateList.tpCameraStates[0].minDistance;
             }
             set
             {
-                invectorCam.currentState.minDistance = value;
+                invectorCam.CameraStateList.tpCameraStates[0].minDistance = value;
             }
         }
         public float MaxZoomDistance
         {
             get
             {
-                return invectorCam.currentState.maxDistance;
+                return invectorCam.CameraStateList.tpCameraStates[0].maxDistance;
             }
             set
             {
-                invectorCam.currentState.maxDistance = value;
+                invectorCam.CameraStateList.tpCameraStates[0].maxDistance = value;
             }
         }
         public float CurrentZoomDistance
@@ -122,18 +118,17 @@ namespace MultiplayerARPG
         {
             get
             {
-                return invectorCam.currentState.useZoom;
+                return invectorCam.CameraStateList.tpCameraStates[0].useZoom;
             }
             set
             {
-                invectorCam.currentState.useZoom = true;
+                invectorCam.CameraStateList.tpCameraStates[0].useZoom = true;
             }
         }
 
         private float pitch;
         private float yaw;
         private float zoom;
-        private float zoomVelocity;
 
         protected virtual void Update()
         {
@@ -162,7 +157,6 @@ namespace MultiplayerARPG
                 zoom = InputManager.GetAxis(zoomAxisName, false) * zoomSpeedScale;
             }
 
-            zoom = Mathf.Clamp(zoom, zoomMin, zoomMax);
             invectorCam.Zoom(zoom);
         }
 
