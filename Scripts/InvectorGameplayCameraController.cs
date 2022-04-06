@@ -132,6 +132,11 @@ namespace MultiplayerARPG
 
         protected virtual void Update()
         {
+            if (PlayerCharacterEntity == null)
+            {
+                return;
+            }
+
             if (invectorCam.selfRigidbody)
             {
                 invectorCam.selfRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
