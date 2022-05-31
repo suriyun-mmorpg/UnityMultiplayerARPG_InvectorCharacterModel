@@ -55,6 +55,8 @@ namespace MultiplayerARPG
         public bool useLeftIK = true;
         [Tooltip("Check this to use IK on the right hand")]
         public bool useRightIK = true;
+        public Vector3 ikRotationOffset;
+        public Vector3 ikPositionOffset;
         [Tooltip("Time to keep aiming after shot")]
         public float hipfireAimTime = 2f;
         [Tooltip("While in Free Locomotion the character will lean to left/right when steering")]
@@ -170,8 +172,6 @@ namespace MultiplayerARPG
         protected bool isJumping = false;
         protected float movesetId = 0f;
         protected float upperBodyId = 0f;
-        protected Vector3 ikRotationOffset;
-        protected Vector3 ikPositionOffset;
         protected bool isStrafing = false;
         protected bool isSprinting = false;
         // NOTE: Actually has no `isSliding` usage
