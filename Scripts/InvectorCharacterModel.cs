@@ -263,19 +263,19 @@ namespace MultiplayerARPG
             aimAngleReference.transform.rotation = transform.rotation;
             aimAngleReference.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Head));
             aimAngleReference.transform.localPosition = Vector3.zero;
+
+            animatorStateInfos = new vAnimatorStateInfos(animator);
             base.Awake();
         }
 
         protected virtual void OnEnable()
         {
-            if (animatorStateInfos != null)
-                animatorStateInfos.RegisterListener();
+            animatorStateInfos.RegisterListener();
         }
 
         protected virtual void OnDisable()
         {
-            if (animatorStateInfos != null)
-                animatorStateInfos.RemoveListener();
+            animatorStateInfos.RemoveListener();
             animator.SetLayerWeight(onlyArmsLayer, upperBodyId > 0f ? 1f : 0f);
             animator.SetFloat(vAnimatorParameters.MoveSet_ID, movesetId);
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
@@ -284,12 +284,9 @@ namespace MultiplayerARPG
         public virtual bool IsAnimatorTag(string tag)
         {
             if (animator == null) return false;
-            if (animatorStateInfos != null)
+            if (animatorStateInfos.HasTag(tag))
             {
-                if (animatorStateInfos.HasTag(tag))
-                {
-                    return true;
-                }
+                return true;
             }
             if (baseLayerInfo.IsTag(tag)) return true;
             if (underBodyInfo.IsTag(tag)) return true;
