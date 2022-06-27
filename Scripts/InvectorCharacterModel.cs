@@ -41,6 +41,8 @@ namespace MultiplayerARPG
         public float strafeRotationSpeed = 20f;
         [Tooltip("Rotation speed of the character while not strafing")]
         public float freeRotationSpeed = 20f;
+        public float armIKSmoothIn = 10f;
+        public float armIKSmoothOut = 25f;
         [Tooltip("Control the speed of the Animator Layer OnlyArms Weight")]
         public float onlyArmsSpeed = 25f;
         [Tooltip("smooth of the right hand when correcting the aim")]
@@ -49,7 +51,7 @@ namespace MultiplayerARPG
         public float smoothArmAlignWeight = 4f;
         [Tooltip("Limit the maxAngle for the right hand to correct the aim")]
         public float maxAimAngle = 60f;
-        [Tooltip("Check this to syinc the weapon aim to the camera aim")]
+        [Tooltip("Check this to sync the weapon aim to the camera aim")]
         public bool raycastAimTarget = true;
         [Tooltip("Check this to use IK on the left hand")]
         public bool useLeftIK = true;
@@ -930,9 +932,9 @@ namespace MultiplayerARPG
             {
                 // control weight of ik
                 if (equipmentEntity && equipmentEntity.handIKTarget && !isReloading && (isGrounded || isAiming) && useIkConditions)
-                    supportIKWeight = Mathf.Lerp(supportIKWeight, 1, 10f * Time.deltaTime);
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 1, armIKSmoothIn * Time.deltaTime);
                 else
-                    supportIKWeight = Mathf.Lerp(supportIKWeight, 0, 25f * Time.deltaTime);
+                    supportIKWeight = Mathf.Lerp(supportIKWeight, 0, armIKSmoothOut * Time.deltaTime);
 
                 if (supportIKWeight <= 0) return;
 
