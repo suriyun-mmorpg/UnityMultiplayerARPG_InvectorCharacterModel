@@ -782,10 +782,10 @@ namespace MultiplayerARPG
             inputMagnitude = 0f;
             float stopMoveWeight = 0f;
 
-            var eulerDifference = characterEntity.CacheTransform.eulerAngles - lastCharacterAngle;
+            var eulerDifference = characterEntity.EntityTransform.eulerAngles - lastCharacterAngle;
             var magnitude = (eulerDifference.NormalizeAngle().y / (isStrafing ? strafeRotationSpeed : freeRotationSpeed));
             rotationMagnitude = magnitude;
-            lastCharacterAngle = characterEntity.CacheTransform.eulerAngles;
+            lastCharacterAngle = characterEntity.EntityTransform.eulerAngles;
 
             if (movementState.Has(MovementState.Forward))
             {
@@ -962,7 +962,7 @@ namespace MultiplayerARPG
             var dir = targetArmAligmentDirection;
             dir.Normalize();
             dir.y = 0;
-            var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.CacheTransform.eulerAngles;
+            var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.EntityTransform.eulerAngles;
 
             return ((angle.NormalizeAngle().y < 15 && angle.NormalizeAngle().y > -15));
         }
@@ -1075,7 +1075,7 @@ namespace MultiplayerARPG
                 var dir = targetArmAligmentDirection;
                 dir.Normalize();
                 dir.y = 0;
-                var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.CacheTransform.eulerAngles;
+                var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.EntityTransform.eulerAngles;
                 float weight = (180f - Mathf.Abs(angle.NormalizeAngle().y)) / 180f;
                 headTrack.SetLookAtPosition(targetArmAlignmentPosition, weight, weight);
             }
