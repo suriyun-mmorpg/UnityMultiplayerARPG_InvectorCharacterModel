@@ -2,8 +2,6 @@ using Invector;
 using Invector.IK;
 using Invector.vCharacterController;
 using Invector.vEventSystems;
-using Invector.vShooter;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
