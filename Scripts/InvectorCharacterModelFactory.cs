@@ -1,5 +1,4 @@
 using Invector.vCharacterController;
-using MultiplayerARPG.GameData.Model.Playables;
 using UnityEngine;
 
 namespace MultiplayerARPG
@@ -32,6 +31,7 @@ namespace MultiplayerARPG
             InvectorCharacterModel characterModel = obj.AddComponent<InvectorCharacterModel>();
             characterModel.animator = obj.GetComponentInChildren<Animator>();
             characterModel.headTrack = headTrack;
+            characterModel.animator.runtimeAnimatorController = Resources.Load("__Invector@ShooterMelee") as RuntimeAnimatorController;
             return characterModel;
         }
     }
