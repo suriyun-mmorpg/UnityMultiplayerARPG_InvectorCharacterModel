@@ -130,6 +130,11 @@ namespace MultiplayerARPG
         private float yaw;
         private float zoom;
 
+        public void Init()
+        {
+
+        }
+
         protected virtual void Update()
         {
             if (PlayerCharacterEntity == null)
