@@ -20,7 +20,7 @@ MonoBehaviour:
   category: 
   icon: {fileID: 0}
   invectorWeaponType: 3
-  equipType: 0
+  equipType: 2
   dualWieldRestriction: 0
   damageInfo:
     damageType: 2
@@ -29,7 +29,7 @@ MonoBehaviour:
     hitDistance: 0
     hitFov: 0
     missileDistance: 100
-    missileSpeed: 500
+    missileSpeed: 300
     missileDamageEntity: {fileID: 0}
     projectileEffect: {fileID: 5704789890618076665, guid: 30208cf835dbc9e4b83b1ab45e995875,
       type: 3}

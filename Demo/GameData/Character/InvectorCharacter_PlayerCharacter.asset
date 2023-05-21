@@ -24,10 +24,10 @@ MonoBehaviour:
       hp: 100
       hpRecovery: 0
       hpLeechRate: 0
-      mp: 0
+      mp: 100
       mpRecovery: 0
       mpLeechRate: 0
-      stamina: 0
+      stamina: 100
       staminaRecovery: 0
       staminaLeechRate: 0
       food: 0
