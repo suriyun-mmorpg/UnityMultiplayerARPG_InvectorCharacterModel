@@ -455,6 +455,12 @@ namespace MultiplayerARPG
             return GetAttackAnimation(dataId, out animationIndex, out triggerDurations, out totalDuration);
         }
 
+        public override int GetLeftHandAttackRandomMax(int dataId)
+        {
+            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
+            return tempClipLengths.Length;
+        }
+
         public override bool GetLeftHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
             animSpeedRate = 1f;
@@ -473,6 +479,12 @@ namespace MultiplayerARPG
             return GetAttackAnimation(dataId, out animationIndex, out triggerDurations, out totalDuration);
         }
 
+        public override int GetRightHandAttackRandomMax(int dataId)
+        {
+            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
+            return tempClipLengths.Length;
+        }
+
         public override bool GetRightHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
             animSpeedRate = 1f;
@@ -481,11 +493,13 @@ namespace MultiplayerARPG
 
         public override bool GetSkillActivateAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
         {
+            // TODO: May implement this?
             throw new System.NotImplementedException();
         }
 
         public override SkillActivateAnimationType GetSkillActivateAnimationType(int dataId)
         {
+            // TODO: May implement this?
             throw new System.NotImplementedException();
         }
 
@@ -669,9 +683,28 @@ namespace MultiplayerARPG
             throw new System.NotImplementedException();
         }
 
-        public override void SetEquipWeapons(EquipWeapons equipWeapons)
+        public override void SetEquipWeapons(IList<EquipWeapons> selectableWeaponSets, byte equipWeaponSet, bool isWeaponsSheathed)
         {
-            IWeaponItem rightHandWeaponItem = equipWeapons.GetRightHandWeaponItem();
+            EquipWeapons newEquipWeapons;
+            if (isWeaponsSheathed || selectableWeaponSets == null || selectableWeaponSets.Count == 0)
+            {
+                newEquipWeapons = new EquipWeapons();
+            }
+            else
+            {
+                if (equipWeaponSet >= selectableWeaponSets.Count)
+                {
+                    // Issues occuring, so try to simulate data
+                    // Create a new list to make sure that changes won't be applied to the source list (the source list must be readonly)
+                    selectableWeaponSets = new List<EquipWeapons>(selectableWeaponSets);
+                    while (equipWeaponSet >= selectableWeaponSets.Count)
+                    {
+                        selectableWeaponSets.Add(new EquipWeapons());
+                    }
+                }
+                newEquipWeapons = selectableWeaponSets[equipWeaponSet];
+            }
+            IWeaponItem rightHandWeaponItem = newEquipWeapons.GetRightHandWeaponItem();
             int dataId = rightHandWeaponItem != null ? rightHandWeaponItem.WeaponType.DataId : 0;
             if (!GameInstance.WeaponTypes.ContainsKey(dataId))
             {
@@ -738,7 +771,7 @@ namespace MultiplayerARPG
             }
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, upperBodyId);
             currentAttackClipIndex = 0;
-            base.SetEquipWeapons(equipWeapons);
+            base.SetEquipWeapons(selectableWeaponSets, equipWeaponSet, isWeaponsSheathed);
         }
 
         public override void PlayJumpAnimation()
@@ -748,29 +781,29 @@ namespace MultiplayerARPG
 
         public override void PlayMoveAnimation()
         {
-            if (dirtyIsDead != isDead)
+            if (dirtyIsDead != IsDead)
             {
-                dirtyIsDead = isDead;
+                dirtyIsDead = IsDead;
                 ResetAnimatorParameters();
-                animator.SetBool(vAnimatorParameters.IsDead, isDead);
+                animator.SetBool(vAnimatorParameters.IsDead, IsDead);
             }
 
-            if (isDead)
+            if (IsDead)
             {
                 isJumping = false;
                 return;
             }
 
             float deltaTime = Time.deltaTime;
-            isStrafing = movementState.Has(MovementState.Left) || movementState.Has(MovementState.Right) || movementState.Has(MovementState.Backward);
-            isSprinting = extraMovementState == ExtraMovementState.IsSprinting;
+            isStrafing = MovementState.Has(MovementState.Left) || MovementState.Has(MovementState.Right) || MovementState.Has(MovementState.Backward);
+            isSprinting = ExtraMovementState == ExtraMovementState.IsSprinting;
             // NOTE: Actually has no `isSliding` usage
             bool isSliding = false;
             // NOTE: Actually has no `isRolling` usage
             bool isRolling = false;
-            isCrouching = extraMovementState == ExtraMovementState.IsCrouching;
-            isCrawling = extraMovementState == ExtraMovementState.IsCrawling;
-            isGrounded = movementState.Has(MovementState.IsGrounded);
+            isCrouching = ExtraMovementState == ExtraMovementState.IsCrouching;
+            isCrawling = ExtraMovementState == ExtraMovementState.IsCrawling;
+            isGrounded = MovementState.Has(MovementState.IsGrounded);
             // NOTE: Cannot find ground distance and ground angle from direction yet
             float groundDistance = 0f;
             float groundAngleFromDirection = 0f;
@@ -785,22 +818,22 @@ namespace MultiplayerARPG
             rotationMagnitude = magnitude;
             lastCharacterAngle = characterEntity.EntityTransform.eulerAngles;
 
-            if (movementState.Has(MovementState.Forward))
+            if (MovementState.Has(MovementState.Forward))
             {
                 verticalSpeed = 1f;
                 inputMagnitude = 1f;
             }
-            if (movementState.Has(MovementState.Backward))
+            if (MovementState.Has(MovementState.Backward))
             {
                 verticalSpeed = -1f;
                 inputMagnitude = 1f;
             }
-            if (movementState.Has(MovementState.Right))
+            if (MovementState.Has(MovementState.Right))
             {
                 horizontalSpeed = 1f;
                 inputMagnitude = 1f;
             }
-            if (movementState.Has(MovementState.Left))
+            if (MovementState.Has(MovementState.Left))
             {
                 horizontalSpeed = -1f;
                 inputMagnitude = 1f;
@@ -819,16 +852,16 @@ namespace MultiplayerARPG
                     animator.CrossFadeInFixedTime("JumpMove", .2f);
                 }
             }
-            else if (!movementState.Has(MovementState.IsGrounded))
+            else if (!MovementState.Has(MovementState.IsGrounded))
             {
                 // Falling
                 verticalVelocity = 10f;
             }
 
-            if (!jumpFallen && movementState.Has(MovementState.IsGrounded))
+            if (!jumpFallen && MovementState.Has(MovementState.IsGrounded))
                 jumpFallen = true;
 
-            if (movementState.Has(MovementState.IsGrounded) && extraMovementState == ExtraMovementState.IsSprinting)
+            if (MovementState.Has(MovementState.IsGrounded) && ExtraMovementState == ExtraMovementState.IsSprinting)
                 inputMagnitude *= 1.5f;
 
             animator.SetBool(vAnimatorParameters.IsStrafing, isStrafing);
