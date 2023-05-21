@@ -274,7 +274,10 @@ namespace MultiplayerARPG
         {
             vHeadTrackSensor headTrackSensor = GetComponentInChildren<vHeadTrackSensor>();
             if (headTrackSensor != null)
+            {
                 headTrackSensor.tag = "Untagged";
+                headTrackSensor.gameObject.AddComponent<UnHittable>();
+            }
         }
 
         protected virtual void OnEnable()
