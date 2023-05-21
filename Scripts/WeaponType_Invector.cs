@@ -21,7 +21,7 @@ namespace MultiplayerARPG
         [Category("Weapon Type Settings")]
         [Header("Invector")]
         [SerializeField]
-        private EInvectorWeaponType invectorWeaponType;
+        private EInvectorWeaponType invectorWeaponType = EInvectorWeaponType.Unarmed;
         public EInvectorWeaponType InvectorWeaponType
         {
             get { return invectorWeaponType; }
