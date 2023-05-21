@@ -16,10 +16,10 @@ MonoBehaviour:
   tpCameraStates:
   - Name: Default
     forward: -1
-    right: 0.35
-    defaultDistance: 2
-    maxDistance: 12
-    minDistance: 0.6
+    right: 0.25
+    defaultDistance: 0.65
+    maxDistance: 3
+    minDistance: 1.5
     height: 1.65
     smooth: 10
     smoothDamp: 6
@@ -33,7 +33,7 @@ MonoBehaviour:
     cullingHeight: 1.9
     cullingMinDist: 0.01
     fov: 60
-    useZoom: 0
+    useZoom: 1
     fixedAngle: {x: 360, y: 78}
     lookPoints:
     - pointName: point_01
