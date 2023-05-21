@@ -272,7 +272,9 @@ namespace MultiplayerARPG
 
         protected virtual void Start()
         {
-            
+            vHeadTrackSensor headTrackSensor = GetComponentInChildren<vHeadTrackSensor>();
+            if (headTrackSensor != null)
+                headTrackSensor.tag = "Untagged";
         }
 
         protected virtual void OnEnable()
