@@ -727,7 +727,7 @@ MonoBehaviour:
   warpPortalDatabase: {fileID: 11400000, guid: 6a5e8bb8645bbb349a05709f9b37b5df, type: 2}
   socialSystemSetting: {fileID: 11400000, guid: afad462dae207414f91b207f6882dad2,
     type: 2}
-  defaultWeaponItem: {fileID: 11400000, guid: 7a97cfad0e4b1ee49ba6f735b4b1b0d9, type: 2}
+  defaultWeaponItem: {fileID: 11400000, guid: ba49483dbdd12014f9d961b4dadcc09a, type: 2}
   defaultDamageElement: {fileID: 0}
   defaultDamageHitEffects:
   - {fileID: 114984786077298016, guid: fa67f0b7f994d9548821d15fbf67531d, type: 3}

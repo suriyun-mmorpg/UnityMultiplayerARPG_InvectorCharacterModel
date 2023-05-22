@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: InvectorCharacter_PlayerCharacter
   m_EditorClassIdentifier: 
   id: InvectorCharacter
-  defaultTitle: 
+  defaultTitle: VBOT
   languageSpecificTitles: []
   defaultDescription: 
   languageSpecificDescriptions: []
   category: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0536d8ada72a6ac4695386ea4bcd1ebe, type: 3}
   stats:
     baseStats:
       hp: 100
