@@ -695,7 +695,7 @@ namespace MultiplayerARPG
             throw new System.NotImplementedException();
         }
 
-        public override void SetEquipWeapons(IList<EquipWeapons> selectableWeaponSets, byte equipWeaponSet, bool isWeaponsSheathed)
+        public override void SetEquipItems(IList<CharacterItem> equipItems, IList<EquipWeapons> selectableWeaponSets, byte equipWeaponSet, bool isWeaponsSheathed)
         {
             EquipWeapons newEquipWeapons;
             if (isWeaponsSheathed || selectableWeaponSets == null || selectableWeaponSets.Count == 0)
@@ -783,7 +783,7 @@ namespace MultiplayerARPG
             }
             animator.SetFloat(vAnimatorParameters.UpperBody_ID, _upperBodyId);
             _currentAttackClipIndex = 0;
-            base.SetEquipWeapons(selectableWeaponSets, equipWeaponSet, isWeaponsSheathed);
+            base.SetEquipItems(equipItems, selectableWeaponSets, equipWeaponSet, isWeaponsSheathed);
         }
 
         public override void PlayJumpAnimation()
