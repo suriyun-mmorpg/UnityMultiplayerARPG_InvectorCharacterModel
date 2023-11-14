@@ -1,7 +1,4 @@
-using Invector;
 using Invector.vCamera;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MultiplayerARPG
@@ -126,9 +123,9 @@ namespace MultiplayerARPG
             }
         }
 
-        private float pitch;
-        private float yaw;
-        private float zoom;
+        private float _pitch;
+        private float _yaw;
+        private float _zoom;
 
         public void Init()
         {
@@ -147,27 +144,31 @@ namespace MultiplayerARPG
                 invectorCam.selfRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             }
 
-            pitch = 0f;
+            _pitch = 0f;
             if (UpdateRotation || UpdateRotationX)
             {
-                pitch = InputManager.GetAxis(pitchAxisName, false) * pitchRotateSpeedScale;
+                _pitch = InputManager.GetAxis(pitchAxisName, false) * pitchRotateSpeedScale;
             }
 
-            yaw = 0f;
+            _yaw = 0f;
             if (UpdateRotation || UpdateRotationY)
             {
-                yaw = InputManager.GetAxis(yawAxisName, false) * yawRotateSpeedScale;
+                _yaw = InputManager.GetAxis(yawAxisName, false) * yawRotateSpeedScale;
             }
 
-            invectorCam.RotateCamera(yaw, pitch);
+            invectorCam.RotateCamera(_yaw, _pitch);
 
-            zoom = 0f;
+            _zoom = 0f;
             if (UpdateZoom)
             {
-                zoom = InputManager.GetAxis(zoomAxisName, false) * zoomSpeedScale;
+                _zoom = InputManager.GetAxis(zoomAxisName, false) * zoomSpeedScale;
             }
 
-            invectorCam.Zoom(zoom);
+            invectorCam.Zoom(_zoom);
+        }
+
+        protected virtual void LateUpdate()
+        {
         }
 
         public virtual void Setup(BasePlayerCharacterEntity characterEntity)
