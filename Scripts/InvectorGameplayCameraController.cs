@@ -127,11 +127,6 @@ namespace MultiplayerARPG
         private float _yaw;
         private float _zoom;
 
-        public void Init()
-        {
-
-        }
-
         protected virtual void Update()
         {
             if (PlayerCharacterEntity == null)
@@ -181,6 +176,11 @@ namespace MultiplayerARPG
         {
             PlayerCharacterEntity = null;
             FollowingEntityTransform = null;
+        }
+
+        public virtual void Init()
+        {
+
         }
     }
 }
