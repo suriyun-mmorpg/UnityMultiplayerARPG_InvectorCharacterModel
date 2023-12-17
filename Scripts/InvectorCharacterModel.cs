@@ -831,8 +831,8 @@ namespace MultiplayerARPG
             _inputMagnitude = 0f;
             float stopMoveWeight = 0f;
 
-            var eulerDifference = characterEntity.EntityTransform.eulerAngles - _lastCharacterAngle;
-            var magnitude = (eulerDifference.NormalizeAngle().y / (_isStrafing ? strafeRotationSpeed : freeRotationSpeed));
+            Vector3 eulerDifference = characterEntity.EntityTransform.eulerAngles - _lastCharacterAngle;
+            float magnitude = (eulerDifference.NormalizeAngle().y / (_isStrafing ? strafeRotationSpeed : freeRotationSpeed));
             _rotationMagnitude = magnitude;
             _lastCharacterAngle = characterEntity.EntityTransform.eulerAngles;
 
@@ -870,10 +870,12 @@ namespace MultiplayerARPG
                     animator.CrossFadeInFixedTime("JumpMove", .2f);
                 }
             }
-            else if (!MovementState.Has(MovementState.IsGrounded))
+
+            if (!_isGrounded)
             {
-                // Falling
+                // TODO: use madeup vert velocity and ground distance (just to make it work)
                 _verticalVelocity = 10f;
+                groundDistance = 0.3f;
             }
 
             if (!_jumpFallen && MovementState.Has(MovementState.IsGrounded))
