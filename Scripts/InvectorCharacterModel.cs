@@ -515,24 +515,28 @@ namespace MultiplayerARPG
             throw new System.NotImplementedException();
         }
 
-        public override void PlaySkillCastClip(int dataId, float duration)
+        public override void PlaySkillCastClip(int dataId, float duration, out bool skipMovementValidation, out bool shouldUseRootMotion)
         {
             // TODO: May implement this?
+            throw new System.NotImplementedException();
         }
 
         public override void StopSkillCastAnimation()
         {
             // TODO: May implement this?
+            throw new System.NotImplementedException();
         }
 
-        public override void PlayWeaponChargeClip(int dataId, bool isLeftHand)
+        public override void PlayWeaponChargeClip(int dataId, bool isLeftHand, out bool skipMovementValidation, out bool shouldUseRootMotion)
         {
             // TODO: Implement this, for only throwing item and bow
+            throw new System.NotImplementedException();
         }
 
         public override void StopWeaponChargeAnimation()
         {
             // TODO: Implement this, for only throwing item and bow
+            throw new System.NotImplementedException();
         }
 
         public void PlayAttackAnimation(int dataId, int animationIndex)
@@ -675,8 +679,10 @@ namespace MultiplayerARPG
             }
         }
 
-        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, float playSpeedMultiplier = 1)
+        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, out bool skipMovementValidation, out bool shouldUseRootMotion, float playSpeedMultiplier = 1)
         {
+            skipMovementValidation = false;
+            shouldUseRootMotion = false;
             switch (animActionType)
             {
                 case AnimActionType.AttackLeftHand:
