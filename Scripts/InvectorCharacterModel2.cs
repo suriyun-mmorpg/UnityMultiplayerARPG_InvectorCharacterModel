@@ -8,28 +8,10 @@ using UnityEngine;
 namespace MultiplayerARPG
 {
     /// <summary>
-    /// This version will returns `triggerDurations` and `totalDuration` immediately by values which set in this component
+    /// This version will returns `triggerDurations` and `totalDuration` immediately by `PrepareActionDurationsBehaviour` component
     /// </summary>
-    public class InvectorCharacterModel : BaseCharacterModel
+    public class InvectorCharacterModel2 : BaseCharacterModel
     {
-        [System.Serializable]
-        public struct ClipLengthData
-        {
-            public float clipLength;
-            [Range(0.01f, 1f)]
-            public float triggerAtRate;
-
-            public ClipLengthData(float clipLength, float triggerAtRate)
-            {
-                this.clipLength = clipLength;
-                this.triggerAtRate = triggerAtRate;
-            }
-
-            public ClipLengthData(float clipLength) : this(clipLength, 0.5f)
-            {
-            }
-        }
-
         // NOTE: Get animator parameters from `vAnimatorParameters`
         public Animator animator;
         public vHeadTrack headTrack;
@@ -71,61 +53,6 @@ namespace MultiplayerARPG
         [Tooltip("If this is true it will play attack animation clips by order, no random")]
         public bool playAttackClipByOrder = true;
         public vAnimatorStateInfos animatorStateInfos;
-
-        [Header("Animation Clip Length")]
-        public ClipLengthData[] unarmedAttackClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.542f),
-            new ClipLengthData(0.542f),
-        };
-        public ClipLengthData[] swordAttackClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(1f),
-            new ClipLengthData(0.792f),
-            new ClipLengthData(0.625f),
-        };
-        public ClipLengthData[] twoHandSwordAttackClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.6f),
-            new ClipLengthData(0.9f),
-            new ClipLengthData(1.833f),
-        };
-        public ClipLengthData[] dualSwordAttackClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(1f),
-            new ClipLengthData(0.792f),
-            new ClipLengthData(0.625f),
-        };
-        public ClipLengthData[] pistolRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.233f),
-        };
-        public ClipLengthData[] rifleRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.133f),
-        };
-        public ClipLengthData[] shotgunRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.6f),
-        };
-        public ClipLengthData[] sniperRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.6f),
-        };
-        public ClipLengthData[] rpgRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.6f),
-        };
-        public ClipLengthData[] bowRecoilClipLengths = new ClipLengthData[]
-        {
-            new ClipLengthData(0.208f),
-        };
-        public ClipLengthData pistolReloadClipLength = new ClipLengthData(2.567f);
-        public ClipLengthData rifleReloadClipLength = new ClipLengthData(2.8f);
-        public ClipLengthData shotgunReloadClipLength = new ClipLengthData(0.723f);
-        public ClipLengthData sniperReloadClipLength = new ClipLengthData(2.8f);
-        public ClipLengthData rpgReloadClipLength = new ClipLengthData(1f);
-        public ClipLengthData bowReloadClipLength = new ClipLengthData(1f);
 
         public BaseCharacterEntity CharacterEntity => Entity as BaseCharacterEntity;
         public bool IsReloading
@@ -346,113 +273,23 @@ namespace MultiplayerARPG
             UpdateArmsIK();
         }
 
-        public ClipLengthData[] GetAttackClipLengths(int dataId)
-        {
-            if (!GameInstance.WeaponTypes.ContainsKey(dataId))
-            {
-                return unarmedAttackClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sword)
-            {
-                return swordAttackClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.TwoHandSword)
-            {
-                return twoHandSwordAttackClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.DualSword)
-            {
-                return dualSwordAttackClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
-            {
-                return pistolRecoilClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
-            {
-                return rifleRecoilClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
-            {
-                return shotgunRecoilClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
-            {
-                return sniperRecoilClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
-            {
-                return rpgRecoilClipLengths;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
-            {
-                return bowRecoilClipLengths;
-            }
-            // Unarmed
-            return unarmedAttackClipLengths;
-        }
-
-        public ClipLengthData GetReloadClipLength(int dataId)
-        {
-            if (!GameInstance.WeaponTypes.ContainsKey(dataId))
-            {
-                return default;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Pistol)
-            {
-                return pistolReloadClipLength;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rifle)
-            {
-                return rifleReloadClipLength;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Shotgun)
-            {
-                return shotgunReloadClipLength;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Sniper)
-            {
-                return sniperReloadClipLength;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Rpg)
-            {
-                return rpgReloadClipLength;
-            }
-            if (GameInstance.WeaponTypes[dataId].InvectorWeaponType == WeaponType.EInvectorWeaponType.Bow)
-            {
-                return bowReloadClipLength;
-            }
-            // Unknow
-            return default;
-        }
-
         public bool GetAttackAnimation(int dataId, int animationIndex, out float[] triggerDurations, out float totalDuration)
         {
-            ClipLengthData tempClipLengthData = GetAttackClipLengths(dataId)[animationIndex];
-            totalDuration = tempClipLengthData.clipLength;
-            triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
+            totalDuration = 0;
+            triggerDurations = null;
             return true;
         }
 
         public bool GetReloadAnimation(int dataId, out float[] triggerDurations, out float totalDuration)
         {
-            ClipLengthData tempClipLengthData = GetReloadClipLength(dataId);
-            totalDuration = tempClipLengthData.clipLength;
-            triggerDurations = new float[1] { totalDuration * tempClipLengthData.triggerAtRate };
+            totalDuration = 0;
+            triggerDurations = null;
             return true;
         }
 
         public bool GetAttackAnimation(int dataId, out int animationIndex, out float[] triggerDurations, out float totalDuration)
         {
-            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
-            if (playAttackClipByOrder)
-            {
-                animationIndex = _currentAttackClipIndex;
-            }
-            else
-            {
-                animationIndex = Random.Range(0, tempClipLengths.Length);
-            }
+            animationIndex = _currentAttackClipIndex;
             return GetAttackAnimation(dataId, animationIndex, out triggerDurations, out totalDuration);
         }
 
@@ -470,8 +307,8 @@ namespace MultiplayerARPG
 
         public override int GetLeftHandAttackRandomMax(int dataId)
         {
-            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
-            return tempClipLengths.Length;
+            // TODO: Implement this
+            return 1;
         }
 
         public override bool GetLeftHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
@@ -494,8 +331,8 @@ namespace MultiplayerARPG
 
         public override int GetRightHandAttackRandomMax(int dataId)
         {
-            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
-            return tempClipLengths.Length;
+            // TODO: Implement this
+            return 1;
         }
 
         public override bool GetRightHandReloadAnimation(int dataId, out float animSpeedRate, out float[] triggerDurations, out float totalDuration)
@@ -629,10 +466,8 @@ namespace MultiplayerARPG
                     animator.SetInteger(RandomAttack, animationIndex);
                 }
             }
-            _currentAttackClipIndex++;
-            ClipLengthData[] tempClipLengths = GetAttackClipLengths(dataId);
-            if (_currentAttackClipIndex >= tempClipLengths.Length)
-                _currentAttackClipIndex = 0;
+            // TODO: setup proper `_currentAttackClipIndex`, may use state machine behaviour to increase `_currentAttackClipIndex`
+            _currentAttackClipIndex = 0;
         }
 
         public void PlayReloadAnimation(int dataId)
