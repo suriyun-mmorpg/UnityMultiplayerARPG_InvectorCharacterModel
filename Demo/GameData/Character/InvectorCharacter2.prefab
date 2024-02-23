@@ -1984,7 +1984,7 @@ GameObject:
   - component: {fileID: 2395109436881050928}
   - component: {fileID: 2666363385711478924}
   m_Layer: 0
-  m_Name: InvectorCharacter
+  m_Name: InvectorCharacter2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2049,7 +2049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56367cc2ed44f1e49835e9c247771fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetId: 1a45c145795a7254194963856eea7420
+  assetId: f12b5f76c3016d94cbc5b847fb37bb52
   objectId: 0
   visibleRange: 0
   alwaysVisible: 0
@@ -2176,7 +2176,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4896659390557620613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b1556a56046f1149ad314d2f8039539, type: 3}
+  m_Script: {fileID: 11500000, guid: e2b5d61123f802d4bb575a9bb5118957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 2
@@ -2253,68 +2253,6 @@ MonoBehaviour:
     debug: 0
     animator: {fileID: 0}
     stateInfos: []
-  unarmedAttackClipLengths:
-  - clipLength: 0.542
-    triggerAtRate: 0.5
-  - clipLength: 0.542
-    triggerAtRate: 0.5
-  swordAttackClipLengths:
-  - clipLength: 1
-    triggerAtRate: 0.5
-  - clipLength: 0.792
-    triggerAtRate: 0.5
-  - clipLength: 0.625
-    triggerAtRate: 0.5
-  twoHandSwordAttackClipLengths:
-  - clipLength: 0.6
-    triggerAtRate: 0.5
-  - clipLength: 0.9
-    triggerAtRate: 0.5
-  - clipLength: 1.833
-    triggerAtRate: 0.5
-  dualSwordAttackClipLengths:
-  - clipLength: 1
-    triggerAtRate: 0.5
-  - clipLength: 0.792
-    triggerAtRate: 0.5
-  - clipLength: 0.625
-    triggerAtRate: 0.5
-  pistolRecoilClipLengths:
-  - clipLength: 0.233
-    triggerAtRate: 0.5
-  rifleRecoilClipLengths:
-  - clipLength: 0.1
-    triggerAtRate: 0.5
-  shotgunRecoilClipLengths:
-  - clipLength: 0.6
-    triggerAtRate: 0.5
-  sniperRecoilClipLengths:
-  - clipLength: 0.6
-    triggerAtRate: 0.5
-  rpgRecoilClipLengths:
-  - clipLength: 0.6
-    triggerAtRate: 0.5
-  bowRecoilClipLengths:
-  - clipLength: 0.208
-    triggerAtRate: 0.5
-  pistolReloadClipLength:
-    clipLength: 2.567
-    triggerAtRate: 0.5
-  rifleReloadClipLength:
-    clipLength: 2.8
-    triggerAtRate: 0.5
-  shotgunReloadClipLength:
-    clipLength: 0.723
-    triggerAtRate: 0.5
-  sniperReloadClipLength:
-    clipLength: 2.8
-    triggerAtRate: 0.5
-  rpgReloadClipLength:
-    clipLength: 1
-    triggerAtRate: 0.5
-  bowReloadClipLength:
-    clipLength: 1
-    triggerAtRate: 0.5
 --- !u!143 &527303653850338821
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2476,7 +2414,7 @@ MonoBehaviour:
   dataChannel: 0
   sendOptions: 0
   sendInterval: 0.1
-  entityTitle: 1
+  entityTitle: 2
   entityTitles: []
   syncTitle:
     behaviour: {fileID: 0}

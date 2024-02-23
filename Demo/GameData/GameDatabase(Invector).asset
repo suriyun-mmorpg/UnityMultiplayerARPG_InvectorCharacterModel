@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacterEntities:
   - {fileID: 2666363385711478924, guid: 1a45c145795a7254194963856eea7420, type: 3}
+  - {fileID: 2666363385711478924, guid: f12b5f76c3016d94cbc5b847fb37bb52, type: 3}
   monsterCharacterEntities:
   - {fileID: 114107677553822186, guid: 2124e2e5e8dd2794ea8c8aff808d0096, type: 3}
   - {fileID: 114313543944479198, guid: c26675f5ea04ade429c509dd5998a3a3, type: 3}
@@ -196,20 +197,3 @@ MonoBehaviour:
   gachas:
   - {fileID: 11400000, guid: 4831f0e790450cf4daa51f6d2e2f171d, type: 2}
   - {fileID: 11400000, guid: 0131e75bfc7a28d4ea844b2ea1afda56, type: 2}
-  attributeBundleName: attribute
-  currencyBundleName: currency
-  damageElementBundleName: damageElement
-  characterBundleName: character
-  itemBundleName: item
-  mapInfoBundleName: map
-  sceneBundleName: scene
-  skillBundleName: skill
-  playerIconBundleName: playerIcon
-  playerFrameBundleName: playerFrame
-  playerTitleBundleName: playerTitle
-  guildSkillBundleName: guildSkill
-  guildIconBundleName: guildIcon
-  questBundleName: quest
-  factionBundleName: faction
-  gachaBundleName: gacha
-  setNameForUnnamedAssetsOnly: 1
