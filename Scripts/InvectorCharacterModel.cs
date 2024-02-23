@@ -29,7 +29,6 @@ namespace MultiplayerARPG
 
         // NOTE: Get animator parameters from `vAnimatorParameters`
         public Animator animator;
-        public BaseCharacterEntity characterEntity;
         public vHeadTrack headTrack;
         [Range(0f, 1f)]
         public float strafeAnimationSmooth = 0.2f;
@@ -125,11 +124,12 @@ namespace MultiplayerARPG
         public ClipLengthData rpgReloadClipLength = new ClipLengthData(1f);
         public ClipLengthData bowReloadClipLength = new ClipLengthData(1f);
 
+        public BaseCharacterEntity CharacterEntity => Entity as BaseCharacterEntity;
         public bool IsReloading
         {
             get
             {
-                return IsAnimatorTag("IsReloading") || characterEntity.IsPlayingReloadAnimation();
+                return IsAnimatorTag("IsReloading") || CharacterEntity.IsPlayingReloadAnimation();
             }
         }
         public bool IsShooting
@@ -150,7 +150,7 @@ namespace MultiplayerARPG
         {
             get
             {
-                return IsAnimatorTag("Attack") || characterEntity.IsPlayingAttackOrUseSkillAnimation();
+                return IsAnimatorTag("Attack") || CharacterEntity.IsPlayingAttackOrUseSkillAnimation();
             }
         }
         public bool IsEquipping
@@ -248,8 +248,6 @@ namespace MultiplayerARPG
         {
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
-            if (characterEntity == null)
-                characterEntity = GetComponentInChildren<BaseCharacterEntity>();
             if (headTrack == null)
                 headTrack = GetComponentInChildren<vHeadTrack>();
             _onlyArmsLayer = animator.GetLayerIndex("OnlyArms");
@@ -831,10 +829,10 @@ namespace MultiplayerARPG
             _inputMagnitude = 0f;
             float stopMoveWeight = 0f;
 
-            Vector3 eulerDifference = characterEntity.EntityTransform.eulerAngles - _lastCharacterAngle;
-            float magnitude = (eulerDifference.NormalizeAngle().y / (_isStrafing ? strafeRotationSpeed : freeRotationSpeed));
+            Vector3 eulerDifference = Entity.EntityTransform.eulerAngles - _lastCharacterAngle;
+            float magnitude = eulerDifference.NormalizeAngle().y / (_isStrafing ? strafeRotationSpeed : freeRotationSpeed);
             _rotationMagnitude = magnitude;
-            _lastCharacterAngle = characterEntity.EntityTransform.eulerAngles;
+            _lastCharacterAngle = Entity.EntityTransform.eulerAngles;
 
             if (MovementState.Has(MovementState.Forward))
             {
@@ -1009,20 +1007,20 @@ namespace MultiplayerARPG
 
         protected virtual bool IsAimAlignWithForward()
         {
-            if (characterEntity.AimPosition.type != AimPositionType.Direction) return false;
+            if (CharacterEntity.AimPosition.type != AimPositionType.Direction) return false;
             var dir = targetArmAligmentDirection;
             dir.Normalize();
             dir.y = 0;
-            var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.EntityTransform.eulerAngles;
+            var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - CharacterEntity.EntityTransform.eulerAngles;
 
-            return ((angle.NormalizeAngle().y < 15 && angle.NormalizeAngle().y > -15));
+            return angle.NormalizeAngle().y < 15 && angle.NormalizeAngle().y > -15;
         }
 
         protected virtual Vector3 targetArmAlignmentPosition
         {
             get
             {
-                return characterEntity.AimPosition.position + ((Vector3)characterEntity.AimPosition.direction * 10f);
+                return CharacterEntity.AimPosition.position + ((Vector3)CharacterEntity.AimPosition.direction * 10f);
             }
         }
 
@@ -1030,7 +1028,7 @@ namespace MultiplayerARPG
         {
             get
             {
-                return characterEntity.AimPosition.direction;
+                return CharacterEntity.AimPosition.direction;
             }
         }
 
@@ -1117,7 +1115,7 @@ namespace MultiplayerARPG
             if (!headTrack)
                 return;
             headTrack.ignoreSmooth = IsAiming;
-            if (characterEntity.AimPosition.type != AimPositionType.Direction)
+            if (CharacterEntity.AimPosition.type != AimPositionType.Direction)
             {
                 headTrack.SetLookAtPosition(targetArmAlignmentPosition, 0, 0);
             }
@@ -1126,7 +1124,7 @@ namespace MultiplayerARPG
                 var dir = targetArmAligmentDirection;
                 dir.Normalize();
                 dir.y = 0;
-                var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - characterEntity.EntityTransform.eulerAngles;
+                var angle = Quaternion.LookRotation(dir.normalized, Vector3.up).eulerAngles - CharacterEntity.EntityTransform.eulerAngles;
                 float weight = (180f - Mathf.Abs(angle.NormalizeAngle().y)) / 180f;
                 headTrack.SetLookAtPosition(targetArmAlignmentPosition, weight, weight);
             }
