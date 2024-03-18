@@ -26,19 +26,17 @@ namespace MultiplayerARPG
         private Vector3 _targetRecoilRotation;
         private Vector3 _currentRecoilRotation;
 
-        public void Recoil(float x, float y, float z)
+        public void Recoil(float pitch, float yaw, float roll)
         {
-            _targetRecoilRotation += new Vector3(x * recoilRateX, y * recoilRateY, z * recoilRateZ);
+            _targetRecoilRotation += new Vector3(pitch * recoilRateX, yaw * recoilRateY, roll * recoilRateZ);
         }
 
-        protected override void LateUpdate()
+        protected override void Update()
         {
-            base.LateUpdate();
-            // Update recoiling
-            float deltaTime = Time.deltaTime;
-            _targetRecoilRotation = Vector3.Lerp(_targetRecoilRotation, Vector3.zero, deltaTime * recoilReturnSpeed);
-            _currentRecoilRotation = Vector3.Lerp(_currentRecoilRotation, _targetRecoilRotation, deltaTime * recoilSmoothing);
-            invectorCam.transform.eulerAngles += _currentRecoilRotation;
+            base.Update();
+            _targetRecoilRotation = Vector3.Lerp(_targetRecoilRotation, Vector3.zero, Time.deltaTime * recoilReturnSpeed);
+            _currentRecoilRotation = Vector3.Lerp(_currentRecoilRotation, _targetRecoilRotation, Time.fixedDeltaTime * recoilSmoothing);
+            invectorCam.RotateCamera(_currentRecoilRotation.y, _currentRecoilRotation.x);
         }
     }
 }
