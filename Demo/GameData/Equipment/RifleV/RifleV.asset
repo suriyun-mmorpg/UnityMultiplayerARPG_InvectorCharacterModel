@@ -21,15 +21,20 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: c9bcb3ac64db75147b5fde5864fdfcb2, type: 3}
   sellPrice: 0
   weight: 0
+  noSlotUsage: 0
   maxStack: 1
   itemRefine: {fileID: 11400000, guid: b8c5078d91a221c47a13beb39dcfc030, type: 2}
   lockDuration: 0
+  expireDurationUnit: 2
   expireDuration: 0
   dropModel: {fileID: 271071358940553154, guid: b7a3876ad82590c45ba082bbba2d51f2,
     type: 3}
   dismantleReturnGold: 0
   dismantleReturnItems: []
   dismantleReturnCurrencies: []
+  restrictDealing: 0
+  restrictDropping: 0
+  restrictSelling: 0
   cashShopItemGeneratingList: []
   equipmentModels:
   - equipSocket: R-Hand
@@ -38,24 +43,41 @@ MonoBehaviour:
       type: 3}
     instantiatedObjectIndex: 0
     priority: 0
-    doNotUseEntityBones: 0
+    doNotSetupBones: 0
+    equipmentModelBonesSetupManager: {fileID: 0}
     localPosition: {x: 0, y: 0, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
     doNotChangeScale: 0
     localScale: {x: 0, y: 0, z: 0}
     useSpecificSheathEquipWeaponSet: 0
     specificSheathEquipWeaponSet: 0
-    itemDataId: 0
-    itemLevel: 0
+    indexOfModel: -1
     equipPosition: 
+    item:
+      id: 
+      dataId: 0
+      level: 0
+      amount: 0
+      equipSlotIndex: 0
+      durability: 0
+      exp: 0
+      lockRemainsDuration: 0
+      expireTime: 0
+      randomSeed: 0
+      ammoDataId: 0
+      ammo: 0
+      sockets: 
+      version: 0
   requirement:
     availableClass: {fileID: 0}
     availableClasses: []
+    availableFactions: []
     level: 0
     attributeAmounts: []
   equipmentSet: {fileID: 0}
   maxDurability: 0
   destroyIfBroken: 0
+  availableSocketEnhancerTypes: 
   maxSocket: 0
   increaseStats:
     baseStats:
@@ -83,7 +105,11 @@ MonoBehaviour:
       goldRate: 0
       expRate: 0
       itemDropRate: 0
-      testStat1: 0
+      jumpHeight: 0
+      headDamageAbsorbs: 0
+      bodyDamageAbsorbs: 0
+      fallDamageAbsorbs: 0
+      gravityRate: 0
     statsIncreaseEachLevel:
       hp: 0
       hpRecovery: 0
@@ -109,7 +135,11 @@ MonoBehaviour:
       goldRate: 0
       expRate: 0
       itemDropRate: 0
-      testStat1: 0
+      jumpHeight: 0
+      headDamageAbsorbs: 0
+      bodyDamageAbsorbs: 0
+      fallDamageAbsorbs: 0
+      gravityRate: 0
     statsIncreaseEachLevelByLevels: []
   increaseStatsRate:
     baseStats:
@@ -137,7 +167,11 @@ MonoBehaviour:
       goldRate: 0
       expRate: 0
       itemDropRate: 0
-      testStat1: 0
+      jumpHeight: 0
+      headDamageAbsorbs: 0
+      bodyDamageAbsorbs: 0
+      fallDamageAbsorbs: 0
+      gravityRate: 0
     statsIncreaseEachLevel:
       hp: 0
       hpRecovery: 0
@@ -163,15 +197,22 @@ MonoBehaviour:
       goldRate: 0
       expRate: 0
       itemDropRate: 0
-      testStat1: 0
+      jumpHeight: 0
+      headDamageAbsorbs: 0
+      bodyDamageAbsorbs: 0
+      fallDamageAbsorbs: 0
+      gravityRate: 0
     statsIncreaseEachLevelByLevels: []
   increaseAttributes: []
   increaseAttributesRate: []
   increaseResistances: []
   increaseArmors: []
+  increaseArmorsRate: []
   increaseDamages: []
+  increaseDamagesRate: []
   increaseSkillLevels: []
   increaseSkills: []
+  increaseStatusEffectResistances: []
   selfStatusEffectsWhenAttacking: []
   enemyStatusEffectsWhenAttacking: []
   selfStatusEffectsWhenAttacked: []
@@ -251,6 +292,21 @@ MonoBehaviour:
       minItemDropRate: 0
       maxItemDropRate: 0
       itemDropRateApplyRate: 0
+      minJumpHeight: 0
+      maxJumpHeight: 0
+      jumpHeightApplyRate: 0
+      minHeadDamageAbsorbs: 0
+      maxHeadDamageAbsorbs: 0
+      headDamageAbsorbsApplyRate: 0
+      minBodyDamageAbsorbs: 0
+      maxBodyDamageAbsorbs: 0
+      bodyDamageAbsorbsApplyRate: 0
+      minFallDamageAbsorbs: 0
+      maxFallDamageAbsorbs: 0
+      fallDamageAbsorbsApplyRate: 0
+      minGravityRate: 0
+      maxGravityRate: 0
+      gravityRateApplyRate: 0
     randomCharacterStatsRate:
       minHp: 0
       maxHp: 0
@@ -324,11 +380,28 @@ MonoBehaviour:
       minItemDropRate: 0
       maxItemDropRate: 0
       itemDropRateApplyRate: 0
+      minJumpHeight: 0
+      maxJumpHeight: 0
+      jumpHeightApplyRate: 0
+      minHeadDamageAbsorbs: 0
+      maxHeadDamageAbsorbs: 0
+      headDamageAbsorbsApplyRate: 0
+      minBodyDamageAbsorbs: 0
+      maxBodyDamageAbsorbs: 0
+      bodyDamageAbsorbsApplyRate: 0
+      minFallDamageAbsorbs: 0
+      maxFallDamageAbsorbs: 0
+      fallDamageAbsorbsApplyRate: 0
+      minGravityRate: 0
+      maxGravityRate: 0
+      gravityRateApplyRate: 0
     randomAttributeAmounts: []
     randomAttributeAmountRates: []
     randomResistanceAmounts: []
     randomArmorAmounts: []
+    randomArmorAmountRates: []
     randomDamageAmounts: []
+    randomDamageAmountRates: []
     randomSkillLevels: []
   offHandEquipmentModels:
   - equipSocket: L-Hand
@@ -337,16 +410,31 @@ MonoBehaviour:
       type: 3}
     instantiatedObjectIndex: 0
     priority: 0
-    doNotUseEntityBones: 0
+    doNotSetupBones: 0
+    equipmentModelBonesSetupManager: {fileID: 0}
     localPosition: {x: 0, y: 0, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
     doNotChangeScale: 0
     localScale: {x: 0, y: 0, z: 0}
     useSpecificSheathEquipWeaponSet: 0
     specificSheathEquipWeaponSet: 0
-    itemDataId: 0
-    itemLevel: 0
+    indexOfModel: -1
     equipPosition: 
+    item:
+      id: 
+      dataId: 0
+      level: 0
+      amount: 0
+      equipSlotIndex: 0
+      durability: 0
+      exp: 0
+      lockRemainsDuration: 0
+      expireTime: 0
+      randomSeed: 0
+      ammoDataId: 0
+      ammo: 0
+      sockets: 
+      version: 0
   sheathModels: []
   offHandSheathModels: []
   weaponType: {fileID: 11400000, guid: 3288f4dbfd9925e4ba9e1a50acb83437, type: 2}
@@ -388,18 +476,21 @@ MonoBehaviour:
     restrictedWhileAirborne: 0
     restrictedWhileCrouching: 0
     restrictedWhileCrawling: 0
+  ammoItems: []
   ammoCapacity: 0
   weaponAbility: {fileID: 0}
+  weaponAbilities: []
   crosshairSetting:
     hidden: 0
-    expandPerFrameWhileMoving: 0
-    expandPerFrameWhileAttacking: 0
-    shrinkPerFrame: 0
+    expandPerFrameWhileMoving: 3
+    expandPerFrameWhileAttacking: 5
+    shrinkPerFrame: 8
     shrinkPerFrameWhenAttacked: 0
-    minSpread: 0
-    maxSpread: 0
-    recoilX: 0
-    recoilY: 0
+    minSpread: 10
+    maxSpread: 50
+    recoilPitch: 2.5
+    recoilYaw: 2.5
+    recoilRoll: 2.5
   launchClip: {fileID: 0}
   launchClips: []
   launchClipSettings:
@@ -422,6 +513,8 @@ MonoBehaviour:
     minRandomVolume: 0.8
     maxRandomVolume: 1
   fireType: 1
+  rateOfFire: 0
+  reloadDuration: 0
   fireStagger: {x: 3, y: 3}
   fireSpread: 0
   chargeDuration: 0
