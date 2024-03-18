@@ -4,9 +4,9 @@ namespace MultiplayerARPG
 {
     public class InvectorShooterGameplayCameraController : InvectorGameplayCameraController, IShooterGameplayCameraController
     {
-        public float recoilRateX = 1f;
-        public float recoilRateY = 1f;
-        public float recoilRateZ = 1f;
+        public float recoilRateX = 0.001f;
+        public float recoilRateY = 0.001f;
+        public float recoilRateZ = 0.001f;
         public float recoilReturnSpeed = 2f;
         public float recoilSmoothing = 6f;
 
@@ -28,7 +28,7 @@ namespace MultiplayerARPG
 
         public void Recoil(float pitch, float yaw, float roll)
         {
-            _targetRecoilRotation += new Vector3(pitch * recoilRateX, yaw * recoilRateY, roll * recoilRateZ);
+            _targetRecoilRotation += new Vector3(-pitch * recoilRateX, yaw * recoilRateY, roll * recoilRateZ);
         }
 
         protected override void Update()
