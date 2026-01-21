@@ -515,7 +515,7 @@ namespace MultiplayerARPG
             }
         }
 
-        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, out bool skipMovementValidation, out bool shouldUseRootMotion, float playSpeedMultiplier = 1)
+        public override void PlayActionAnimation(AnimActionType animActionType, int dataId, int index, out bool skipMovementValidation, out bool shouldUseRootMotion, float playSpeedMultiplier, float changeClipLength, float overrideClipLength)
         {
             skipMovementValidation = false;
             shouldUseRootMotion = false;

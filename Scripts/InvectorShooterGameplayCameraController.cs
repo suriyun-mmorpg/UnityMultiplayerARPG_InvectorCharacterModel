@@ -22,6 +22,8 @@ namespace MultiplayerARPG
         public float AimAssistYSpeed { get; set; }
         public float AimAssistMaxAngleFromFollowingTarget { get; set; }
         public float CameraRotationSpeedScale { get; set; }
+        public bool IsLeftViewSide { get; set; }
+        public bool IsZoomAimming { get; set; }
 
         private Vector3 _targetRecoilRotation;
         private Vector3 _currentRecoilRotation;
