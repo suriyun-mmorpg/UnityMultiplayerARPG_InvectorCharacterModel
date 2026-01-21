@@ -53,6 +53,7 @@ MonoBehaviour:
   minimapCameraPrefab: {fileID: 114548782499701980, guid: 280aed852e1f49946840d29f4118a058,
     type: 3}
   mode: 0
+  alwaysTurnForwardWhileCombat: 0
   emptyAmmoAutoReload: 0
   canSwitchViewMode: 0
   viewMode: 0
@@ -68,13 +69,17 @@ MonoBehaviour:
   buildRotateAngle: 45
   buildRotateSpeed: 200
   crosshairRect: {fileID: 224344548392091454}
-  defaultCameraRotationSpeedScaleSaveKey: DEFAULT_CAMERA_ROTATION_SPEED_SCALE
+  thirdPersonCameraRotationSpeedScaleSaveKey: 3RD_PERSON_CAMERA_SCALE
+  firstPersonCameraRotationSpeedScaleSaveKey: 1ST_PERSON_CAMERA_SCALE
+  sprintDelayAfterActions: 1
+  walkDelayAfterActions: 1
   tpsZoomDistance: 1.5
-  tpsMinZoomDistance: 1.5
-  tpsMaxZoomDistance: 3
   tpsTargetOffset: {x: 0.25, y: 1.65, z: 0}
+  tpsTargetOffsetWhileSprinting: {x: 0.25, y: 1.65, z: 0}
+  tpsTargetOffsetWhileWalking: {x: 0.25, y: 1.65, z: 0}
   tpsTargetOffsetWhileCrouching: {x: 0.25, y: 1, z: 0}
   tpsTargetOffsetWhileCrawling: {x: 0.25, y: 0.5, z: 0}
+  tpsTargetOffsetDamping: 10
   tpsFov: 60
   tpsNearClipPlane: 0.3
   tpsFarClipPlane: 1000
@@ -87,6 +92,15 @@ MonoBehaviour:
   turnSpeedWhileCrawling: 20
   turnSpeedWhileSwimming: 20
   turnSpeedWhileDoingAction: 20
+  shoulderZoomDistance: 0
+  shoulderTargetOffset: {x: 0, y: 0, z: 0}
+  shoulderTargetOffsetWhileSprinting: {x: 0, y: -0.25, z: 0}
+  shoulderTargetOffsetWhileWalking: {x: 0, y: -0.25, z: 0}
+  shoulderTargetOffsetWhileCrouching: {x: 0, y: -0.25, z: 0}
+  shoulderTargetOffsetWhileCrawling: {x: 0, y: -0.5, z: 0}
+  shoulderFov: 50
+  shoulderNearClipPlane: 0.01
+  shoulderFarClipPlane: 1000
   fpsZoomDistance: 0
   fpsTargetOffset: {x: 0, y: 1.25, z: 0}
   fpsTargetOffsetWhileCrouching: {x: 0, y: -0.25, z: 0}
@@ -101,7 +115,8 @@ MonoBehaviour:
   aimAssistRadius: 0.5
   aimAssistXSpeed: 20
   aimAssistYSpeed: 20
-  aimAssistCharacter: 1
+  aimAssistPlayer: 1
+  aimAssistMonster: 1
   aimAssistBuilding: 0
   aimAssistHarvestable: 0
   recoilRateWhileMoving: 1.5
