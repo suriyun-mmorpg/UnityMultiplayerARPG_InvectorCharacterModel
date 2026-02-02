@@ -10,6 +10,7 @@ namespace MultiplayerARPG
         public float recoilReturnSpeed = 2f;
         public float recoilSmoothing = 6f;
 
+        public ShooterControllerViewMode ActiveViewMode { get; set; }
         public bool EnableAimAssist { get; set; }
         public bool EnableAimAssistX { get; set; }
         public bool EnableAimAssistY { get; set; }
@@ -24,6 +25,7 @@ namespace MultiplayerARPG
         public float CameraRotationSpeedScale { get; set; }
         public bool IsLeftViewSide { get; set; }
         public bool IsZoomAimming { get; set; }
+        public Transform LookForwardTransform { get => CameraTransform; }
 
         private Vector3 _targetRecoilRotation;
         private Vector3 _currentRecoilRotation;
